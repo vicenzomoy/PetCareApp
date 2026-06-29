@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
 }
+apply(plugin = "realm-android")
 
 android {
     namespace = "edu.uph.m24si2.petcareapp"
@@ -22,14 +23,19 @@ android {
 
     buildTypes {
         release {
-            optimization {
-                enable = false
-            }
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        viewBinding = true
     }
 }
 
@@ -38,6 +44,7 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.constraintlayout)
     implementation(libs.material)
+    implementation("io.realm:realm-android-library:10.15.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
