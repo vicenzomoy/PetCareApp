@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PetCareApp">
         <activity
-            android:name=".LoginActivity"
+            android:name=".PetProfile"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -29,6 +29,11 @@
             android:name=".RegisterActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
     </application>
 
 </manifest>
