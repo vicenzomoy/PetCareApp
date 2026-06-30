@@ -47,12 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
         tvLogin = findViewById(R.id.tvLogin);
 
-        db = Room.databaseBuilder(
-                        getApplicationContext(),
-                        AppDatabase.class,
-                        "petcare_db")
-                .allowMainThreadQueries()
-                .build();
+        db = AppDatabase.getDatabase(this);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override

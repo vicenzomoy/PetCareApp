@@ -45,12 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         tvRegister = findViewById(R.id.tvRegister);
 
-        db = Room.databaseBuilder(
-                        getApplicationContext(),
-                        AppDatabase.class,
-                        "petcare_db")
-                .allowMainThreadQueries()
-                .build();
+        db = AppDatabase.getDatabase(this);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this,
-                    "Silakan isi email dan password.",
+                    "Silahkan isi email dan password.",
                     Toast.LENGTH_SHORT).show();
             return;
         }
