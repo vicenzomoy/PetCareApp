@@ -13,6 +13,9 @@
         android:theme="@style/Theme.PetCareApp">
         <activity
             android:name=".PetProfile"
+            android:exported="false" />
+        <activity
+            android:name=".BookingGroomingActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -33,7 +36,6 @@
             android:name=".LoginActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
     </application>
 
 </manifest>
