@@ -2,6 +2,7 @@ package edu.uph.m24si2.petcareapp.database;
 
 import android.content.Context;
 
+import edu.uph.m24si2.petcareapp.model.BookingPetHotel;
 import edu.uph.m24si2.petcareapp.database.dao.BookingDao;
 import edu.uph.m24si2.petcareapp.model.Booking;
 
@@ -14,14 +15,17 @@ import edu.uph.m24si2.petcareapp.database.dao.UserDao;
 import edu.uph.m24si2.petcareapp.model.Pet;
 import edu.uph.m24si2.petcareapp.model.User;
 
+import edu.uph.m24si2.petcareapp.database.dao.BookingPetHotelDao;
+
 
 @Database(
         entities = {
                 User.class,
                 Pet.class,
-                Booking.class
+                Booking.class,
+                BookingPetHotel.class
         },
-        version = 2
+        version = 3
 
 
 )
@@ -31,6 +35,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract PetDao petDao();
 
     public abstract BookingDao bookingDao();
+
+    public abstract BookingPetHotelDao bookingPetHotelDao();
 
     public static AppDatabase INSTANCE;
 

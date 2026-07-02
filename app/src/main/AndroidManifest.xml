@@ -15,7 +15,7 @@
             android:name=".PetProfile"
             android:exported="false" />
         <activity
-            android:name=".BookingGroomingActivity"
+            android:name=".BookingPetHotelActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -34,6 +34,10 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".BookingGroomingActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>
