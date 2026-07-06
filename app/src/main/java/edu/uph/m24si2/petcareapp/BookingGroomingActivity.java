@@ -8,6 +8,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -204,19 +205,19 @@ public class BookingGroomingActivity extends AppCompatActivity {
                 break;
         }
 
-        Booking booking = new Booking(
-                petId,
-                dropService.getText().toString(),
-                selectedDate,
-                selectedTime,
-                etNotes.getText().toString(),
-                "Pending",
-                price
+        Intent intent = new Intent(
+                BookingGroomingActivity.this,
+                DetailBookingActivity.class
         );
 
-        db.bookingDao().insert(booking);
+        intent.putExtra("PET_ID", petId);
+        intent.putExtra("PET_NAME", dropPet.getText().toString());
+        intent.putExtra("SERVICE", dropService.getText().toString());
+        intent.putExtra("DATE", selectedDate);
+        intent.putExtra("TIME", selectedTime);
+        intent.putExtra("NOTES", etNotes.getText().toString());
+        intent.putExtra("PRICE", price);
 
-        Toast.makeText(this, "Booking berhasil!", Toast.LENGTH_LONG).show();
-        finish();
+        startActivity(intent);
     }
 }
