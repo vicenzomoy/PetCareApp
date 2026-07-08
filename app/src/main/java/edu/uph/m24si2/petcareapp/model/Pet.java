@@ -7,7 +7,7 @@ public class Pet {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-
+    private int userId;
     private String name;
     private String type;      // kucing, anjing, dll
     private int age;
@@ -32,4 +32,17 @@ public class Pet {
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + type + ")";
+    }
 }

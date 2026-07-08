@@ -1,6 +1,7 @@
 package edu.uph.m24si2.petcareapp;
 
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -66,12 +67,20 @@ public class BookingPetHotelActivity extends AppCompatActivity {
     private int totalDays;
     private int totalPrice;
 
+    private SharedPreferences preferences;
+
+    private int userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_pet_hotel);
 
         db = AppDatabase.getDatabase(this);
+
+        // PREFERENCES
+        preferences = getSharedPreferences("PetCare", MODE_PRIVATE);
+        userId = preferences.getInt("userId", -1);
 
         initView();
         loadPets();
@@ -103,7 +112,10 @@ public class BookingPetHotelActivity extends AppCompatActivity {
     }
 
     private void loadPets() {
-        petList = db.petDao().getAllPets();
+
+        db = AppDatabase.getDatabase(this);
+
+        petList = db.petDao().getPetByUser(userId);
 
         if (petList.isEmpty()) {
             Toast.makeText(this, "No pets found. Please add a pet first.", Toast.LENGTH_LONG).show();

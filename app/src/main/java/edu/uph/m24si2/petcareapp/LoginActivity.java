@@ -1,6 +1,7 @@
 package edu.uph.m24si2.petcareapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -85,6 +86,17 @@ public class LoginActivity extends AppCompatActivity {
         User user = db.userDao().login(email, password);
 
         if (user != null) {
+
+            SharedPreferences preferences =
+                    getSharedPreferences("PetCare", MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = preferences.edit();
+
+            editor.putInt("userId", user.getId());
+            editor.putString("userName", user.getFullname());
+            editor.putString("email", user.getEmail());
+
+            editor.apply();
 
             Toast.makeText(this,
                     "Login berhasil.",

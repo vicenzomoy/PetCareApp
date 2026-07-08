@@ -1,5 +1,6 @@
 package edu.uph.m24si2.petcareapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.activity.EdgeToEdge;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import edu.uph.m24si2.petcareapp.database.AppDatabase;
 import edu.uph.m24si2.petcareapp.model.Pet;
+import edu.uph.m24si2.petcareapp.model.User;
 
 public class PetProfile extends AppCompatActivity {
 
@@ -21,6 +23,8 @@ public class PetProfile extends AppCompatActivity {
     Button btnSave;
 
     AppDatabase db;
+    SharedPreferences preferences;
+    int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,10 @@ public class PetProfile extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // PREFERENCES
+        preferences = getSharedPreferences("PetCare", MODE_PRIVATE);
+        userId = preferences.getInt("userId", -1);
 
         // DATABASE
         db = AppDatabase.getDatabase(this);
@@ -60,14 +68,13 @@ public class PetProfile extends AppCompatActivity {
         btnSave.setOnClickListener(v -> savePet());
 
         // DEBUG: cek data di database
-        List<Pet> pets = db.petDao().getAllPets();
+        List<Pet> pets = db.petDao().getPetByUser(userId);
         for (Pet p : pets) {
             System.out.println("PET: " + p.getName());
         }
     }
 
     private void savePet() {
-
         String name = etName.getText().toString();
         String type = spType.getSelectedItem().toString();
         String ageStr = etAge.getText().toString();
@@ -88,6 +95,7 @@ public class PetProfile extends AppCompatActivity {
 
         // CREATE OBJECT
         Pet pet = new Pet();
+        pet.setUserId(userId);
         pet.setName(name);
         pet.setType(type);
         pet.setAge(age);

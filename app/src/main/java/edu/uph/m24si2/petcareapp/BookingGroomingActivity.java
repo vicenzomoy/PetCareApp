@@ -2,6 +2,7 @@ package edu.uph.m24si2.petcareapp;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -36,13 +37,17 @@ public class BookingGroomingActivity extends AppCompatActivity {
 
     private String selectedDate = "";
     private String selectedTime = "";
+    private SharedPreferences preferences;
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_grooming);
 
-        db = AppDatabase.getDatabase(this);
+        // PREFERENCES
+        preferences = getSharedPreferences("PetCare", MODE_PRIVATE);
+        userId = preferences.getInt("userId", -1);
 
         init();
 
@@ -75,7 +80,8 @@ public class BookingGroomingActivity extends AppCompatActivity {
 
     private void loadPet(){
 
-        petList = db.petDao().getAllPets();
+        db = AppDatabase.getDatabase(this);
+        petList = db.petDao().getPetByUser(userId);
 
         List<String> petNames = new ArrayList<>();
 
