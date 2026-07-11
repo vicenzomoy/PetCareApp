@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class BookingHomeServiceActivity extends AppCompatActivity {
     private Spinner spPet;
     private EditText etDate, etTime, etAddress, etLandmark, etPhone, etNotes;
     private Button btnBooking;
+    private ImageView btnBack;
     private AppDatabase db;
     private List<Pet> petList;
     private SharedPreferences preferences;
@@ -59,6 +61,7 @@ public class BookingHomeServiceActivity extends AppCompatActivity {
         etPhone = findViewById(R.id.etPhone);
         etNotes = findViewById(R.id.etNotes);
         btnBooking = findViewById(R.id.btnBooking);
+        btnBack = findViewById(R.id.btnBack);
 
         loadPet();
         setupListener();
@@ -94,6 +97,7 @@ public class BookingHomeServiceActivity extends AppCompatActivity {
     }
 
     private void setupListener() {
+        btnBack.setOnClickListener(v -> finish());
         etDate.setOnClickListener(v -> showDatePicker());
         etTime.setOnClickListener(v -> showTimePicker());
         btnBooking.setOnClickListener(v -> validateBooking());
@@ -243,50 +247,20 @@ public class BookingHomeServiceActivity extends AppCompatActivity {
 
         Pet pet = (Pet) spPet.getSelectedItem();
 
-//        Intent intent = new Intent(
-//                BookingHomeServiceActivity.this,
-//                BookingSummaryActivity.class
-//        );
-//
-//        intent.putExtra("petId", pet.getId());
-//        intent.putExtra("petName", pet.getName());
-//        intent.putExtra("petType", pet.getType());
-//
-//        intent.putExtra("service", "Home Service");
-//
-//        intent.putExtra(
-//                "bookingDate",
-//                etDate.getText().toString().trim()
-//        );
-//
-//        intent.putExtra(
-//                "bookingTime",
-//                etTime.getText().toString().trim()
-//        );
-//
-//        intent.putExtra(
-//                "address",
-//                etAddress.getText().toString().trim()
-//        );
-//
-//        intent.putExtra(
-//                "landmark",
-//                etLandmark.getText().toString().trim()
-//        );
-//
-//        intent.putExtra(
-//                "phone",
-//                etPhone.getText().toString().trim()
-//        );
-//
-//        intent.putExtra(
-//                "notes",
-//                etNotes.getText().toString().trim()
-//        );
-//
-//        intent.putExtra("price", 100000);
-//
-//        startActivity(intent);
+        Intent intent = new Intent(
+                BookingHomeServiceActivity.this,
+                DetailBookingActivity.class
+        );
+
+        intent.putExtra("PET_ID", pet.getId());
+        intent.putExtra("PET_NAME", pet.getName());
+        intent.putExtra("SERVICE", "Home Service");
+        intent.putExtra("DATE", etDate.getText().toString().trim());
+        intent.putExtra("TIME", etTime.getText().toString().trim());
+        intent.putExtra("NOTES", etNotes.getText().toString().trim());
+        intent.putExtra("PRICE", 100000);
+
+        startActivity(intent);
 
     }
 }

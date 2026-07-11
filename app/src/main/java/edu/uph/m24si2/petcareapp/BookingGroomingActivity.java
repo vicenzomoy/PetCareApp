@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.content.Intent;
 
@@ -28,6 +29,7 @@ public class BookingGroomingActivity extends AppCompatActivity {
     private AutoCompleteTextView dropService;
 
     private Button btnDate, btnTime, btnBooking;
+    private ImageView btnBack;
 
     private EditText etNotes;
 
@@ -55,6 +57,8 @@ public class BookingGroomingActivity extends AppCompatActivity {
 
         loadService();
 
+        btnBack.setOnClickListener(v -> finish());
+
         btnDate.setOnClickListener(v -> showDatePicker());
 
         btnTime.setOnClickListener(v -> showTimePicker());
@@ -73,6 +77,8 @@ public class BookingGroomingActivity extends AppCompatActivity {
         btnTime = findViewById(R.id.btnTime);
 
         btnBooking = findViewById(R.id.btnBooking);
+
+        btnBack = findViewById(R.id.btnBack);
 
         etNotes = findViewById(R.id.etNotes);
 

@@ -1,11 +1,13 @@
 package edu.uph.m24si2.petcareapp;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -50,6 +52,7 @@ public class BookingPetHotelActivity extends AppCompatActivity {
     private TextView tvTotalPrice;
 
     private Button btnBooking;
+    private ImageView btnBack;
 
     // Database
     private AppDatabase db;
@@ -87,6 +90,7 @@ public class BookingPetHotelActivity extends AppCompatActivity {
         setupDatePicker();
         setupRoomType();
 
+        btnBack.setOnClickListener(v -> finish());
         btnBooking.setOnClickListener(v -> saveBooking());
     }
 
@@ -109,6 +113,7 @@ public class BookingPetHotelActivity extends AppCompatActivity {
         tvTotalPrice = findViewById(R.id.tvTotalPrice);
 
         btnBooking = findViewById(R.id.btnBooking);
+        btnBack = findViewById(R.id.btnBack);
     }
 
     private void loadPets() {
@@ -360,6 +365,9 @@ public class BookingPetHotelActivity extends AppCompatActivity {
                 Toast.LENGTH_LONG
         ).show();
 
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
         finish();
 
     }

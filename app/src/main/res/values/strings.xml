@@ -1,3 +1,44 @@
 <resources>
     <string name="app_name">PetCareApp</string>
+    <string name="halo_antonius">Halo, Antonius 👋</string>
+    <string name="semoga_harimu">Semoga harimu menyenangkan!</string>
+    <string name="promo_title">Berikan yang terbaik\nuntuk hewan kesayanganmu</string>
+    <string name="promo_sub">Cek layanan kami sekarang!</string>
+    <string name="layanan_kami">Layanan Kami</string>
+    <string name="lihat_semua">Lihat semua</string>
+    <string name="grooming">Grooming</string>
+    <string name="pet_hotel">Pet Hotel</string>
+    <string name="home_service">Home Service</string>
+    <string name="lainnya">Lainnya</string>
+    <string name="hewan_peliharaan_saya">Hewan Peliharaan Saya</string>
+    <string name="tambah_hewan">Tambah\nHewan</string>
+    <string name="diskon_promo">Diskon 20%</string>
+    <string name="diskon_desc">untuk layanan Grooming\nsetiap hari Senin</string>
+    <string name="beranda">Beranda</string>
+    <string name="booking">Booking</string>
+    <string name="riwayat">Riwayat</string>
+    <string name="profil">Profil</string>
+    <string name="pet_milo">Milo</string>
+    <string name="pet_luna">Luna</string>
+    <string name="anjing">Anjing</string>
+    <string name="kucing">Kucing</string>
+    <string name="poodle">Poodle</string>
+    <string name="persia">Persia</string>
+    <string name="notifikasi">Notifikasi</string>
+    <string name="promo">Promo</string>
+    <string name="banner_diskon">Banner Diskon</string>
+
+    <!-- Previous strings for Pet Profile -->
+    <string name="nama_hewan">Nama Hewan</string>
+    <string name="jenis_hewan">Jenis Hewan</string>
+    <string name="ras_opsional">Ras (Opsional)</string>
+    <string name="jenis_kelamin">Jenis Kelamin</string>
+    <string name="jantan">Jantan</string>
+    <string name="betina">Betina</string>
+    <string name="umur_tahun">Umur (Tahun)</string>
+    <string name="sifat_catatan">Sifat / Catatan Hewan</string>
+    <string name="simpan_data">Simpan Data Profil</string>
+    <string name="pilih_foto">Pilih Foto</string>
+    <string name="profil_hewan_peliharaan">Profil Hewan Peliharaan</string>
+    <string name="lengkapi_data_hewan">Lengkapi data hewan kesayangan Anda</string>
 </resources>

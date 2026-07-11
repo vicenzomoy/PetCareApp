@@ -1,6 +1,7 @@
 package edu.uph.m24si2.petcareapp.database.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -13,6 +14,9 @@ public interface PetDao {
 
     @Insert
     void insert(Pet pet);
+
+    @Delete
+    void delete(Pet pet);
 
     @Query("SELECT * FROM pets")
     List<Pet> getAllPets();

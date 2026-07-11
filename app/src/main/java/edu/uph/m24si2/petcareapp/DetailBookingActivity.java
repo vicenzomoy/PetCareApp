@@ -93,16 +93,14 @@ public class DetailBookingActivity extends AppCompatActivity {
 
             Toast.makeText(
                     DetailBookingActivity.this,
-                    "Pembayaran Berhasil",
+                    "Pembayaran Berhasil!",
                     Toast.LENGTH_SHORT
             ).show();
 
-            Toast.makeText(
-                    DetailBookingActivity.this,
-                    "Pembayaran berhasil!",
-                    Toast.LENGTH_SHORT
-            ).show();
-
+            // Kembali ke Dashboard (MainActivity) dan hapus activity sebelumnya dari stack
+            Intent intent = new Intent(DetailBookingActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
             finish();
 
         });
