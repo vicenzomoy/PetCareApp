@@ -72,7 +72,11 @@ public class MainActivity extends AppCompatActivity {
         navBeranda.setOnClickListener(v -> { /* Already here */ });
 
         navBooking.setOnClickListener(v -> {
-            Intent intent = new Intent(this, BookingGroomingActivity.class);
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    BookingScheduleActivity.class
+            );
+
             startActivity(intent);
         });
 
