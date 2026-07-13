@@ -22,9 +22,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import edu.uph.m24si2.petcareapp.database.AppDatabase;
-import edu.uph.m24si2.petcareapp.model.Booking;
-import edu.uph.m24si2.petcareapp.model.BookingHomeService;
+import edu.uph.m24si2.petcareapp.model.BookingRequest;
 import edu.uph.m24si2.petcareapp.model.Pet;
+import edu.uph.m24si2.petcareapp.util.BookingType;
 
 public class BookingHomeServiceActivity extends AppCompatActivity {
     private Spinner spPet;
@@ -35,6 +35,7 @@ public class BookingHomeServiceActivity extends AppCompatActivity {
     private List<Pet> petList;
     private SharedPreferences preferences;
     private int userId;
+    private Calendar selectedBookingDate = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +116,15 @@ public class BookingHomeServiceActivity extends AppCompatActivity {
                 this,
                 (view, selectedYear, selectedMonth, selectedDay) -> {
 
+                    selectedBookingDate.set(
+                            selectedYear,
+                            selectedMonth,
+                            selectedDay,
+                            0,
+                            0,
+                            0
+                    );
+
                     String date = selectedDay + "/"
                             + (selectedMonth + 1)
                             + "/"
@@ -145,42 +155,80 @@ public class BookingHomeServiceActivity extends AppCompatActivity {
 
     private void showTimePicker() {
 
-        Calendar calendar = Calendar.getInstance();
+        if (etDate.getText().toString().isEmpty()) {
 
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
+            Toast.makeText(
+                    this,
+                    "Pilih tanggal terlebih dahulu",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
+
+        Calendar now = Calendar.getInstance();
+
+        int currentHour = now.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = now.get(Calendar.MINUTE);
 
         TimePickerDialog dialog = new TimePickerDialog(
                 this,
-                (view, selectedHour, selectedMinute) -> {
+                (view, hourOfDay, minute) -> {
 
-                    // Membatasi booking dari jam 8 pagi hingga jam 9 malam
-                    if (selectedHour < 8 ||
-                            selectedHour > 21 ||
-                            (selectedHour == 21 && selectedMinute > 0)) {
+                    // Jam operasional
+                    if (hourOfDay < 8 ||
+                            hourOfDay > 21 ||
+                            (hourOfDay == 21 && minute > 0)) {
 
-                        Toast.makeText(this,
+                        Toast.makeText(
+                                this,
                                 "Jam booking hanya 08:00 - 21:00",
-                                Toast.LENGTH_SHORT).show();
+                                Toast.LENGTH_SHORT
+                        ).show();
                         return;
+                    }
+
+                    // Apakah tanggal yang dipilih adalah hari ini?
+                    Calendar today = Calendar.getInstance();
+
+                    boolean isToday =
+                            selectedBookingDate.get(Calendar.YEAR)
+                                    == today.get(Calendar.YEAR)
+                                    &&
+                                    selectedBookingDate.get(Calendar.DAY_OF_YEAR)
+                                            == today.get(Calendar.DAY_OF_YEAR);
+
+                    if (isToday) {
+
+                        if (hourOfDay < currentHour ||
+                                (hourOfDay == currentHour &&
+                                        minute < currentMinute)) {
+
+                            Toast.makeText(
+                                    this,
+                                    "Jam booking tidak boleh sebelum waktu saat ini",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+
+                            return;
+                        }
                     }
 
                     String time = String.format(
                             "%02d:%02d",
-                            selectedHour,
-                            selectedMinute
+                            hourOfDay,
+                            minute
                     );
 
                     etTime.setText(time);
 
                 },
-                hour,
-                minute,
+                Math.max(currentHour, 8),
+                currentMinute,
                 true
         );
 
         dialog.show();
-
     }
 
     private void validateBooking() {
@@ -239,6 +287,33 @@ public class BookingHomeServiceActivity extends AppCompatActivity {
             return;
         }
 
+        Calendar now = Calendar.getInstance();
+
+        Calendar bookingDateTime = Calendar.getInstance();
+
+        String[] dateSplit = date.split("/");
+        String[] timeSplit = time.split(":");
+
+        bookingDateTime.set(
+                Integer.parseInt(dateSplit[2]),
+                Integer.parseInt(dateSplit[1]) - 1,
+                Integer.parseInt(dateSplit[0]),
+                Integer.parseInt(timeSplit[0]),
+                Integer.parseInt(timeSplit[1]),
+                0
+        );
+
+        if (bookingDateTime.before(now)) {
+
+            Toast.makeText(
+                    this,
+                    "Waktu booking sudah lewat. Silakan pilih jadwal lain.",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
+
         goToSummary();
 
     }
@@ -247,18 +322,31 @@ public class BookingHomeServiceActivity extends AppCompatActivity {
 
         Pet pet = (Pet) spPet.getSelectedItem();
 
+        BookingRequest request = new BookingRequest();
+
+        request.setBookingType(BookingType.HOME_SERVICE);
+
+        request.setPetId(pet.getId());
+        request.setPetName(pet.getName());
+        request.setPetType(pet.getType());
+
+        request.setBookingDate(etDate.getText().toString().trim());
+        request.setBookingTime(etTime.getText().toString().trim());
+
+        request.setAddress(etAddress.getText().toString().trim());
+        request.setLandmark(etLandmark.getText().toString().trim());
+        request.setPhoneNumber(etPhone.getText().toString().trim());
+
+        request.setNotes(etNotes.getText().toString().trim());
+
+        request.setPrice(100000);
+
         Intent intent = new Intent(
                 BookingHomeServiceActivity.this,
-                DetailBookingActivity.class
+                BookingSummaryActivity.class
         );
 
-        intent.putExtra("PET_ID", pet.getId());
-        intent.putExtra("PET_NAME", pet.getName());
-        intent.putExtra("SERVICE", "Home Service");
-        intent.putExtra("DATE", etDate.getText().toString().trim());
-        intent.putExtra("TIME", etTime.getText().toString().trim());
-        intent.putExtra("NOTES", etNotes.getText().toString().trim());
-        intent.putExtra("PRICE", 100000);
+        intent.putExtra("booking", request);
 
         startActivity(intent);
 

@@ -20,14 +20,14 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import edu.uph.m24si2.petcareapp.database.AppDatabase;
-import edu.uph.m24si2.petcareapp.model.BookingPetHotel;
+import edu.uph.m24si2.petcareapp.model.BookingRequest;
 import edu.uph.m24si2.petcareapp.model.Pet;
+import edu.uph.m24si2.petcareapp.util.BookingType;
 
 public class BookingPetHotelActivity extends AppCompatActivity {
 
@@ -272,10 +272,6 @@ public class BookingPetHotelActivity extends AppCompatActivity {
 
     }
 
-    private String generateBookingCode() {
-        return "PH" + System.currentTimeMillis();
-    }
-
     private void saveBooking() {
 
         if (selectedPet == null) {
@@ -284,91 +280,56 @@ public class BookingPetHotelActivity extends AppCompatActivity {
         }
 
         if (roomPrice == 0) {
-
-            Toast.makeText(this,
-                    "Choose room type",
-                    Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this, "Choose room type", Toast.LENGTH_SHORT).show();
             return;
-
         }
 
         if (etCheckIn.getText().toString().isEmpty()) {
-
-            Toast.makeText(this,
-                    "Choose check in",
-                    Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this, "Choose check in", Toast.LENGTH_SHORT).show();
             return;
-
         }
 
         if (etCheckOut.getText().toString().isEmpty()) {
-
-            Toast.makeText(this,
-                    "Choose check out",
-                    Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this, "Choose check out", Toast.LENGTH_SHORT).show();
             return;
-
         }
 
-        BookingPetHotel booking = new BookingPetHotel();
-
-        booking.setPetId(selectedPet.getId());
-
-        booking.setPetName(selectedPet.getName());
-
+        String roomType = "";
         if (rbStandard.isChecked()) {
-
-            booking.setRoomType("Standard");
-
+            roomType = "Standard";
         } else if (rbDeluxe.isChecked()) {
-
-            booking.setRoomType("Deluxe");
-
+            roomType = "Deluxe";
         } else {
-
-            booking.setRoomType("VIP");
-
+            roomType = "VIP";
         }
 
-        booking.setCheckInDate(etCheckIn.getText().toString());
+        BookingRequest request = new BookingRequest();
 
-        booking.setCheckOutDate(etCheckOut.getText().toString());
+        request.setBookingType(BookingType.PET_HOTEL);
 
-        booking.setTotalDays(totalDays);
+        request.setPetId(selectedPet.getId());
+        request.setPetName(selectedPet.getName());
+        request.setPetType(selectedPet.getType());
 
-        booking.setRoomPrice(roomPrice);
+        request.setRoomType(roomType);
 
-        booking.setTotalPrice(totalPrice);
+        request.setCheckInDate(etCheckIn.getText().toString());
 
-        booking.setNote(etNote.getText().toString());
+        request.setCheckOutDate(etCheckOut.getText().toString());
 
-        booking.setStatus("Pending");
+        request.setTotalDays(totalDays);
 
-        booking.setBookingCode(generateBookingCode());
+        request.setNotes(etNote.getText().toString());
 
-        String createdAt =
-                new SimpleDateFormat(
-                        "dd/MM/yyyy HH:mm",
-                        Locale.getDefault())
-                        .format(new Date());
+        request.setPrice(totalPrice);
 
-        booking.setCreatedAt(createdAt);
+        Intent intent =
+                new Intent(
+                        BookingPetHotelActivity.this,
+                        BookingSummaryActivity.class);
 
-        db.bookingPetHotelDao().insertBooking(booking);
+        intent.putExtra("booking", request);
 
-        Toast.makeText(
-                this,
-                "Booking Success",
-                Toast.LENGTH_LONG
-        ).show();
-
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
-        finish();
-
     }
 }

@@ -20,8 +20,9 @@ import java.util.List;
 import java.util.Locale;
 
 import edu.uph.m24si2.petcareapp.database.AppDatabase;
+import edu.uph.m24si2.petcareapp.model.BookingRequest;
 import edu.uph.m24si2.petcareapp.model.Pet;
-import edu.uph.m24si2.petcareapp.model.Booking;
+import edu.uph.m24si2.petcareapp.util.BookingType;
 
 public class BookingGroomingActivity extends AppCompatActivity {
 
@@ -217,18 +218,38 @@ public class BookingGroomingActivity extends AppCompatActivity {
                 break;
         }
 
-        Intent intent = new Intent(
-                BookingGroomingActivity.this,
-                DetailBookingActivity.class
-        );
+        Pet selectedPet = null;
 
-        intent.putExtra("PET_ID", petId);
-        intent.putExtra("PET_NAME", dropPet.getText().toString());
-        intent.putExtra("SERVICE", dropService.getText().toString());
-        intent.putExtra("DATE", selectedDate);
-        intent.putExtra("TIME", selectedTime);
-        intent.putExtra("NOTES", etNotes.getText().toString());
-        intent.putExtra("PRICE", price);
+        for (Pet pet : petList) {
+            if (pet.getId() == petId) {
+                selectedPet = pet;
+                break;
+            }
+        }
+
+        BookingRequest request = new BookingRequest();
+
+        request.setBookingType(BookingType.GROOMING);
+
+        request.setPetId(petId);
+        request.setPetName(selectedPet.getName());
+        request.setPetType(selectedPet.getType());
+
+        request.setService(dropService.getText().toString());
+
+        request.setBookingDate(selectedDate);
+        request.setBookingTime(selectedTime);
+
+        request.setNotes(etNotes.getText().toString());
+
+        request.setPrice(price);
+
+        Intent intent =
+                new Intent(
+                        BookingGroomingActivity.this,
+                        BookingSummaryActivity.class);
+
+        intent.putExtra("booking", request);
 
         startActivity(intent);
     }
