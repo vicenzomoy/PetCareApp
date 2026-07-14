@@ -29,6 +29,8 @@ public class BookingRequest implements Serializable {
     private String checkOutDate;
     private String roomType;
     private int totalDays;
+    private String branchName;
+    private String branchAddress;
 
     // Umum
     private String notes;
@@ -167,5 +169,21 @@ public class BookingRequest implements Serializable {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+
+    public String getBranchAddress() {
+        return branchAddress;
+    }
+
+    public void setBranchAddress(String branchAddress) {
+        this.branchAddress = branchAddress;
     }
 }

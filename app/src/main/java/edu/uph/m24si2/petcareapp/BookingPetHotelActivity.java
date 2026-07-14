@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.card.MaterialCardView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 import edu.uph.m24si2.petcareapp.database.AppDatabase;
 import edu.uph.m24si2.petcareapp.model.BookingRequest;
+import edu.uph.m24si2.petcareapp.model.Branch;
 import edu.uph.m24si2.petcareapp.model.Pet;
 import edu.uph.m24si2.petcareapp.util.BookingType;
 
@@ -60,6 +63,14 @@ public class BookingPetHotelActivity extends AppCompatActivity {
     // Data
     private List<Pet> petList;
     private Pet selectedPet;
+    private List<Branch> branchList;
+    private Branch selectedBranch;
+    private AutoCompleteTextView autoBranch;
+    private MaterialCardView cardBranchInfo;
+    private TextView tvBranchAddress;
+    private TextView tvBranchRating;
+    private TextView tvBranchRoom;
+    private TextView tvBranchOpenHour;
 
     // Date
     private Calendar checkInCalendar;
@@ -87,6 +98,7 @@ public class BookingPetHotelActivity extends AppCompatActivity {
 
         initView();
         loadPets();
+        setupBranch();
         setupDatePicker();
         setupRoomType();
 
@@ -96,7 +108,16 @@ public class BookingPetHotelActivity extends AppCompatActivity {
 
     private void initView() {
 
+        cardBranchInfo = findViewById(R.id.cardBranchInfo);
+
         autoPet = findViewById(R.id.autoPet);
+
+        autoBranch = findViewById(R.id.autoBranch);
+
+        tvBranchAddress = findViewById(R.id.tvBranchAddress);
+        tvBranchRating = findViewById(R.id.tvBranchRating);
+        tvBranchRoom = findViewById(R.id.tvBranchRoom);
+        tvBranchOpenHour = findViewById(R.id.tvBranchOpenHour);
 
         etCheckIn = findViewById(R.id.etCheckIn);
         etCheckOut = findViewById(R.id.etCheckOut);
@@ -123,7 +144,7 @@ public class BookingPetHotelActivity extends AppCompatActivity {
         petList = db.petDao().getPetByUser(userId);
 
         if (petList.isEmpty()) {
-            Toast.makeText(this, "No pets found. Please add a pet first.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Belum ada data hewan. Silakan tambahkan hewan terlebih dahulu.", Toast.LENGTH_LONG).show();
         }
 
         List<String> petNames = new ArrayList<>();
@@ -153,6 +174,116 @@ public class BookingPetHotelActivity extends AppCompatActivity {
         });
     }
 
+    private void setupBranch() {
+
+        branchList = new ArrayList<>();
+
+        branchList.add(
+                new Branch(
+                        "PetCare Medan Centre",
+                        "Jl. Gatot Subroto No.215",
+                        4.9f,
+                        8,
+                        5,
+                        2,
+                        "08.00 - 20.00"
+                )
+        );
+
+        branchList.add(
+                new Branch(
+                        "PetCare Medan Sunggal",
+                        "Jl. Sunggal No. 125, Medan Sunggal",
+                        4.8f,
+                        9,
+                        5,
+                        2,
+                        "08.00 - 20.00 WIB"
+                )
+        );
+
+        branchList.add(
+                new Branch(
+                        "PetCare Medan Helvetia",
+                        "Jl. Kapten Muslim No. 98, Medan Helvetia",
+                        4.7f,
+                        7,
+                        4,
+                        2,
+                        "08.00 - 20.00 WIB"
+                )
+        );
+
+        branchList.add(
+                new Branch(
+                        "PetCare Medan Polonia",
+                        "Jl. Polonia Raya No. 20, Medan Polonia",
+                        4.9f,
+                        6,
+                        5,
+                        4,
+                        "08.00 - 20.00 WIB"
+                )
+        );
+
+        branchList.add(
+                new Branch(
+                        "PetCare Medan Petisah",
+                        "Jl. Iskandar Muda No. 143, Medan Petisah",
+                        4.8f,
+                        8,
+                        6,
+                        3,
+                        "08.00 - 20.00 WIB"
+                )
+        );
+
+        List<String> branchNames = new ArrayList<>();
+        for(Branch branch : branchList){
+
+            branchNames.add(branch.getName());
+
+        }
+
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_dropdown_item_1line,
+                        branchNames
+                );
+
+        autoBranch.setAdapter(adapter);
+
+        autoBranch.setOnClickListener(v->autoBranch.showDropDown());
+
+
+        autoBranch.setOnItemClickListener((parent, view, position, id)->{
+
+            selectedBranch = branchList.get(position);
+
+            cardBranchInfo.setVisibility(View.VISIBLE);
+
+            tvBranchAddress.setText(
+                    "📍 " + selectedBranch.getAddress());
+
+            tvBranchRating.setText(
+                    "⭐ " + selectedBranch.getRating());
+
+            tvBranchRoom.setText(
+                    "Standard : "
+                            + selectedBranch.getStandardRoom()
+                            + "\nDeluxe : "
+                            + selectedBranch.getDeluxeRoom()
+                            + "\nVIP : "
+                            + selectedBranch.getVipRoom());
+
+            tvBranchOpenHour.setText(
+                    "Jam Operasional : "
+                            + selectedBranch.getOpenHour());
+
+        });
+    }
+
     private void setupDatePicker() {
 
         checkInCalendar = Calendar.getInstance();
@@ -160,8 +291,22 @@ public class BookingPetHotelActivity extends AppCompatActivity {
 
         etCheckIn.setOnClickListener(v -> showCheckInPicker());
 
-        etCheckOut.setOnClickListener(v -> showCheckOutPicker());
+        etCheckOut.setOnClickListener(v -> {
 
+            if (etCheckIn.getText().toString().isEmpty()) {
+
+                Toast.makeText(
+                        this,
+                        "Silakan pilih tanggal Check In terlebih dahulu",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                return;
+            }
+
+            showCheckOutPicker();
+
+        });
     }
 
     private void showCheckInPicker() {
@@ -179,6 +324,18 @@ public class BookingPetHotelActivity extends AppCompatActivity {
 
                     etCheckIn.setText(sdf.format(checkInCalendar.getTime()));
 
+                    // Reset Check Out
+                    etCheckOut.setText("");
+
+                    checkOutCalendar = Calendar.getInstance();
+
+                    totalDays = 0;
+                    totalPrice = 0;
+
+                    tvTotalDays.setText("Lama Menginap : 0 Malam");
+                    tvPrice.setText("Harga / Malam : Rp " + roomPrice);
+                    tvTotalPrice.setText("Total : Rp0");
+
                     calculateTotal();
 
                 },
@@ -186,6 +343,8 @@ public class BookingPetHotelActivity extends AppCompatActivity {
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
         );
+
+        dialog.getDatePicker().setMinDate(checkInCalendar.getTimeInMillis());
 
         dialog.show();
 
@@ -212,6 +371,12 @@ public class BookingPetHotelActivity extends AppCompatActivity {
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
+        );
+        Calendar minCheckOut = (Calendar) checkInCalendar.clone();
+        minCheckOut.add(Calendar.DAY_OF_MONTH, 1);
+
+        dialog.getDatePicker().setMinDate(
+                minCheckOut.getTimeInMillis()
         );
 
         dialog.show();
@@ -256,17 +421,22 @@ public class BookingPetHotelActivity extends AppCompatActivity {
 
         totalDays = (int) TimeUnit.MILLISECONDS.toDays(diff);
 
-        if (totalDays <= 0) {
+        if (totalDays < 1) {
 
-            totalDays = 1;
+            Toast.makeText(
+                    this,
+                    "Tanggal Check Out minimal 1 hari setelah Check In",
+                    Toast.LENGTH_SHORT
+            ).show();
 
+            return;
         }
 
         totalPrice = totalDays * roomPrice;
 
-        tvTotalDays.setText("Length of Stay : " + totalDays + " Night");
+        tvTotalDays.setText("Lama Menginap : " + totalDays + " Night");
 
-        tvPrice.setText("Price / Night : Rp " + roomPrice);
+        tvPrice.setText("Harga / Malam : Rp " + roomPrice);
 
         tvTotalPrice.setText("Total : Rp " + totalPrice);
 
@@ -275,26 +445,42 @@ public class BookingPetHotelActivity extends AppCompatActivity {
     private void saveBooking() {
 
         if (selectedPet == null) {
-            Toast.makeText(this, "Please choose pet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    "Silakan pilih hewan peliharaan",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (selectedBranch == null) {
+            Toast.makeText(this,
+                    "Silakan pilih lokasi Pet Hotel",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (roomPrice == 0) {
-            Toast.makeText(this, "Choose room type", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    "Pilih tipe kamar",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (etCheckIn.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Choose check in", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    "Pilih tanggal Check In",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (etCheckOut.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Choose check out", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    "Pilih tanggal Check Out",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String roomType = "";
+        String roomType;
+
         if (rbStandard.isChecked()) {
             roomType = "Standard";
         } else if (rbDeluxe.isChecked()) {
@@ -323,6 +509,10 @@ public class BookingPetHotelActivity extends AppCompatActivity {
 
         request.setPrice(totalPrice);
 
+        // Branch
+        request.setBranchName(selectedBranch.getName());
+        request.setBranchAddress(selectedBranch.getAddress());
+
         Intent intent =
                 new Intent(
                         BookingPetHotelActivity.this,
@@ -331,5 +521,6 @@ public class BookingPetHotelActivity extends AppCompatActivity {
         intent.putExtra("booking", request);
 
         startActivity(intent);
+
     }
 }

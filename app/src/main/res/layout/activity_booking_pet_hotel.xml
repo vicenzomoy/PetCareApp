@@ -45,7 +45,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Reserve a comfortable room for your lovely pet."
+            android:text="Pesan kamar yang nyaman untuk hewan peliharaan kesayangan Anda."
             android:textColor="@color/grey"
             android:textSize="14sp"
             android:layout_marginBottom="20dp"/>
@@ -54,7 +54,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Choose Pet"
+            android:hint="Pilih Hewan"
             app:boxBackgroundMode="filled"
             app:boxBackgroundColor="@color/lightgreen"
             app:boxCornerRadiusTopStart="12dp"
@@ -71,10 +71,90 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Check In"
+            android:hint="Pilih Lokasi Pet Hotel"
+            app:boxBackgroundMode="filled"
+            app:boxBackgroundColor="@color/lightgreen"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoBranch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardBranchInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/lightgreen"
+            app:cardCornerRadius="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Informasi Lokasi Pet Hotel"
+                    android:textStyle="bold"
+                    android:textColor="@color/darkgray"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/tvBranchAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📍 Alamat"
+                    android:textColor="@color/darkgray"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/tvBranchRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⭐ Rating"
+                    android:textColor="@color/darkgray"
+                    android:layout_marginTop="6dp"/>
+
+                <TextView
+                    android:id="@+id/tvBranchRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ketersediaan Kamar"
+                    android:textColor="@color/darkgray"
+                    android:layout_marginTop="6dp"/>
+
+                <TextView
+                    android:id="@+id/tvBranchOpenHour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jam Operasional"
+                    android:textColor="@color/darkgray"
+                    android:layout_marginTop="6dp"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Tanggal Check In"
             app:boxBackgroundMode="filled"
             app:boxBackgroundColor="@color/lightgreen"
             app:boxCornerRadiusTopStart="12dp"
@@ -94,7 +174,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Check Out"
+            android:hint="Tanggal Check Out"
             app:boxBackgroundMode="filled"
             app:boxBackgroundColor="@color/lightgreen"
             app:boxCornerRadiusTopStart="12dp"
@@ -113,7 +193,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Room Type"
+            android:text="Jenis Kamar"
             android:textStyle="bold"
             android:textColor="@color/darkgray"
             android:textSize="18sp"
@@ -128,21 +208,21 @@
                 android:id="@+id/rbStandard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Standard (Rp75.000 / night)"
+                android:text="Standard (Rp75.000 / malam)"
                 android:textColor="@color/darkgray"/>
 
             <RadioButton
                 android:id="@+id/rbDeluxe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Deluxe (Rp120.000 / night)"
+                android:text="Deluxe (Rp120.000 / malam)"
                 android:textColor="@color/darkgray"/>
 
             <RadioButton
                 android:id="@+id/rbVip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="VIP (Rp180.000 / night)"
+                android:text="VIP (Rp180.000 / malam)"
                 android:textColor="@color/darkgray"/>
 
         </RadioGroup>
@@ -151,7 +231,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="Additional Note"
+            android:hint="Catatan Tambahan"
             app:boxBackgroundMode="filled"
             app:boxBackgroundColor="@color/lightgreen">
 
@@ -180,7 +260,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Booking Summary"
+                    android:text="Ringkasan Pemesanan"
                     android:textStyle="bold"
                     android:textColor="@color/darkgray"
                     android:textSize="18sp"/>
@@ -189,7 +269,7 @@
                     android:id="@+id/tvTotalDays"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Length of Stay : 0 Night"
+                    android:text="Lama Menginap : 0 Malam"
                     android:textColor="@color/darkgray"
                     android:layout_marginTop="8dp"/>
 
@@ -197,7 +277,7 @@
                     android:id="@+id/tvPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Price / Night : Rp0"
+                    android:text="Harga / Malam : Rp0"
                     android:textColor="@color/darkgray"/>
 
                 <TextView
@@ -219,7 +299,7 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="24dp"
-            android:text="BOOKING NOW"
+            android:text="PESAN SEKARANG"
             android:textAllCaps="false"
             android:textStyle="bold"
             android:textColor="@color/white"

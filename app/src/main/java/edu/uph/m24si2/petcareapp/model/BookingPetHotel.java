@@ -179,4 +179,23 @@ public class BookingPetHotel {
         this.createdAt = createdAt;
     }
 
+    private String branchName;
+
+    private String branchAddress;
+
+    public String getBranchAddress() {
+        return branchAddress;
+    }
+
+    public void setBranchAddress(String branchAddress) {
+        this.branchAddress = branchAddress;
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
 }
