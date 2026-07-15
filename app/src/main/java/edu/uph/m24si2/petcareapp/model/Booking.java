@@ -23,6 +23,8 @@ public class Booking {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    private int userId;
+
     private int petId;
 
     private String service;
@@ -40,10 +42,8 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(int petId, String service, String bookingDate,
-                   String bookingTime, String notes,
-                   String status, int price) {
-
+    public Booking(int userId, int petId, String service, String bookingDate, String bookingTime, String notes, String status, int price) {
+        this.userId = userId;
         this.petId = petId;
         this.service = service;
         this.bookingDate = bookingDate;
@@ -59,6 +59,14 @@ public class Booking {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getPetId() {

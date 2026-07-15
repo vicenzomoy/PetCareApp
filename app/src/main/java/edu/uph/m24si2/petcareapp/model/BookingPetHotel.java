@@ -9,6 +9,8 @@ public class BookingPetHotel {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    private int userId;
+
     private int petId;
 
     private String petName;
@@ -33,22 +35,8 @@ public class BookingPetHotel {
 
     private String createdAt;
 
-    public BookingPetHotel() {
-    }
-
-    public BookingPetHotel(int petId,
-                           String petName,
-                           String roomType,
-                           String checkInDate,
-                           String checkOutDate,
-                           int totalDays,
-                           int roomPrice,
-                           int totalPrice,
-                           String note,
-                           String status,
-                           String bookingCode,
-                           String createdAt) {
-
+    public BookingPetHotel(int userId, int petId, String petName, String roomType, String checkInDate, String checkOutDate, int totalDays, int roomPrice, int totalPrice, String note, String status, String bookingCode, String createdAt, String branchName, String branchAddress) {
+        this.userId = userId;
         this.petId = petId;
         this.petName = petName;
         this.roomType = roomType;
@@ -61,6 +49,8 @@ public class BookingPetHotel {
         this.status = status;
         this.bookingCode = bookingCode;
         this.createdAt = createdAt;
+        this.branchName = branchName;
+        this.branchAddress = branchAddress;
     }
 
     public int getId() {
@@ -71,6 +61,13 @@ public class BookingPetHotel {
         this.id = id;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public int getPetId() {
         return petId;

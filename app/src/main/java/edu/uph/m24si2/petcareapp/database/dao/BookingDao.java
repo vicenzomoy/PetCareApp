@@ -31,4 +31,6 @@ public interface BookingDao {
     @Query("SELECT * FROM booking")
     List<Booking> getAllBookings();
 
+    @Query("SELECT * FROM booking WHERE userId=:userId ORDER BY id DESC")
+    List<Booking> getBookingByUser(int userId);
 }

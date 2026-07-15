@@ -29,4 +29,7 @@ public interface BookingHomeServiceDao {
 
     @Query("SELECT * FROM booking_home_service WHERE bookingId = :bookingId")
     BookingHomeService getByBookingId(int bookingId);
+
+    @Query("SELECT * FROM booking_home_service WHERE userId=:userId")
+    List<BookingHomeService> getByUser(int userId);
 }

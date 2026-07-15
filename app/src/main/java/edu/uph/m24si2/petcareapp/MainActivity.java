@@ -25,6 +25,7 @@ import com.google.android.material.card.MaterialCardView;
 import java.util.List;
 
 import edu.uph.m24si2.petcareapp.database.AppDatabase;
+import edu.uph.m24si2.petcareapp.model.User;
 import edu.uph.m24si2.petcareapp.model.Pet;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout navBeranda, navBooking, navRiwayat, navProfil;
     MaterialCardView cardAddPet;
     LinearLayout containerPets, btnGrooming, btnPetHotel, btnHomeService;
+
+    TextView tvGreeting;
 
     AppDatabase db;
     SharedPreferences preferences;
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         btnGrooming = findViewById(R.id.btnGrooming);
         btnPetHotel = findViewById(R.id.btnPetHotel);
         btnHomeService = findViewById(R.id.btnHomeService);
+        tvGreeting = findViewById(R.id.tvGreeting);
 
         // Click Listeners
         navBeranda.setOnClickListener(v -> { /* Already here */ });
@@ -83,8 +87,14 @@ public class MainActivity extends AppCompatActivity {
         navRiwayat.setOnClickListener(v -> Toast.makeText(this, "Membuka Riwayat...", Toast.LENGTH_SHORT).show());
 
         navProfil.setOnClickListener(v -> {
-            // Usually goes to User Profile, but for now lets keep consistency
-            Toast.makeText(this, "Membuka Profil Pengguna...", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    ProfileActivity.class
+            );
+
+            startActivity(intent);
+
         });
 
         if (btnGrooming != null) {
@@ -119,7 +129,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        loadUser();
         loadPets();
+    }
+
+    private void loadUser() {
+
+        User user = db.userDao().getUserById(userId);
+
+        if (user != null) {
+            tvGreeting.setText("Halo, " + user.getFullname() + " 👋");
+        }
+
     }
 
     private void loadPets() {

@@ -31,4 +31,7 @@ public interface BookingPetHotelDao {
     @Query("DELETE FROM booking_pet_hotel")
     void deleteAllBookings();
 
+    @Query("SELECT * FROM booking_pet_hotel WHERE userId=:userId ORDER BY id DESC")
+    List<BookingPetHotel> getBookingByUser(int userId);
+
 }
