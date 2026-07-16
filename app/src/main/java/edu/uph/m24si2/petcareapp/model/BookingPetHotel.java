@@ -1,9 +1,32 @@
 package edu.uph.m24si2.petcareapp.model;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "booking_pet_hotel")
+@Entity(
+        tableName = "booking_pet_hotel",
+        foreignKeys = {
+
+                @ForeignKey(
+                        entity = User.class,
+                        parentColumns = "id",
+                        childColumns = "userId",
+                        onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Pet.class,
+                        parentColumns = "id",
+                        childColumns = "petId",
+                        onDelete = ForeignKey.CASCADE
+                )
+        },
+        indices = {
+                @Index("userId"),
+                @Index("petId")
+        }
+        )
 public class BookingPetHotel {
 
     @PrimaryKey(autoGenerate = true)
@@ -12,8 +35,6 @@ public class BookingPetHotel {
     private int userId;
 
     private int petId;
-
-    private String petName;
 
     private String roomType;
 
@@ -35,10 +56,9 @@ public class BookingPetHotel {
 
     private String createdAt;
 
-    public BookingPetHotel(int userId, int petId, String petName, String roomType, String checkInDate, String checkOutDate, int totalDays, int roomPrice, int totalPrice, String note, String status, String bookingCode, String createdAt, String branchName, String branchAddress) {
+    public BookingPetHotel(int userId, int petId, String roomType, String checkInDate, String checkOutDate, int totalDays, int roomPrice, int totalPrice, String note, String status, String bookingCode, String createdAt, String branchName, String branchAddress) {
         this.userId = userId;
         this.petId = petId;
-        this.petName = petName;
         this.roomType = roomType;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
@@ -75,15 +95,6 @@ public class BookingPetHotel {
 
     public void setPetId(int petId) {
         this.petId = petId;
-    }
-
-
-    public String getPetName() {
-        return petName;
-    }
-
-    public void setPetName(String petName) {
-        this.petName = petName;
     }
 
 

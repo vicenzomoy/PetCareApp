@@ -5,14 +5,34 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "booking_home_service")
+@Entity(
+        tableName = "booking_home_service",
+        foreignKeys =  {
+
+                @ForeignKey(
+                        entity = User.class,
+                        parentColumns = "id",
+                        childColumns = "userId",
+                        onDelete = ForeignKey.CASCADE
+                ),
+
+                @ForeignKey(
+                        entity = Pet.class,
+                        parentColumns = "id",
+                        childColumns = "petId",
+                        onDelete = ForeignKey.CASCADE
+                )
+        },
+        indices = {
+                @Index("userId"),
+                @Index("petId")
+        }
+    )
 public class BookingHomeService {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
     private int userId;
-
-    private int bookingId;
 
     private String address;
 
@@ -20,9 +40,8 @@ public class BookingHomeService {
 
     private String phoneNumber;
 
-    public BookingHomeService(int userId, int bookingId, String address, String landmark, String phoneNumber) {
+    public BookingHomeService(int userId, String address, String landmark, String phoneNumber) {
         this.userId = userId;
-        this.bookingId = bookingId;
         this.address = address;
         this.landmark = landmark;
         this.phoneNumber = phoneNumber;
@@ -42,14 +61,6 @@ public class BookingHomeService {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public int getBookingId() {
-        return bookingId;
-    }
-
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
     }
 
     public String getAddress() {
