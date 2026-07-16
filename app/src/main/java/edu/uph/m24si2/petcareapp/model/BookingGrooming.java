@@ -6,27 +6,27 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(
-        tableName = "booking",
+        tableName = "booking_grooming",
         foreignKeys = {
-                @ForeignKey(
-                entity = Pet.class,
-                parentColumns = "id",
-                childColumns = "petId",
-                onDelete = ForeignKey.CASCADE
-        ),
                 @ForeignKey(
                         entity = User.class,
                         parentColumns = "id",
                         childColumns = "userId",
                         onDelete = ForeignKey.CASCADE
-                )
+        ),
+                @ForeignKey(
+                entity = Pet.class,
+                parentColumns = "id",
+                childColumns = "petId",
+                onDelete = ForeignKey.CASCADE
+        )
         },
         indices = {
                 @Index("petId"),
                 @Index("userId")
                 }
 )
-public class Booking {
+public class BookingGrooming {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -45,20 +45,15 @@ public class Booking {
 
     private String status;
 
+    private String bookingCode;
+
+    private String createdAt;
+
     private int price;
 
-    public Booking() {
-    }
+    private String paymentMethod;
 
-    public Booking(int userId, int petId, String service, String bookingDate, String bookingTime, String notes, String status, int price) {
-        this.userId = userId;
-        this.petId = petId;
-        this.service = service;
-        this.bookingDate = bookingDate;
-        this.bookingTime = bookingTime;
-        this.notes = notes;
-        this.status = status;
-        this.price = price;
+    public BookingGrooming() {
     }
 
     public int getId() {
@@ -125,11 +120,35 @@ public class Booking {
         this.status = status;
     }
 
+    public String getBookingCode() {
+        return bookingCode;
+    }
+
+    public void setBookingCode(String bookingCode) {
+        this.bookingCode = bookingCode;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public int getPrice() {
         return price;
     }
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

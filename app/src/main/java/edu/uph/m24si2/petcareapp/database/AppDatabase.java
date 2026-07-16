@@ -5,8 +5,8 @@ import android.content.Context;
 import edu.uph.m24si2.petcareapp.database.dao.BookingHomeServiceDao;
 import edu.uph.m24si2.petcareapp.model.BookingHomeService;
 import edu.uph.m24si2.petcareapp.model.BookingPetHotel;
-import edu.uph.m24si2.petcareapp.database.dao.BookingDao;
-import edu.uph.m24si2.petcareapp.model.Booking;
+import edu.uph.m24si2.petcareapp.database.dao.BookingGroomingDao;
+import edu.uph.m24si2.petcareapp.model.BookingGrooming;
 
 import androidx.room.Database;
 import androidx.room.Room;
@@ -24,18 +24,18 @@ import edu.uph.m24si2.petcareapp.database.dao.BookingPetHotelDao;
         entities = {
                 User.class,
                 Pet.class,
-                Booking.class,
+                BookingGrooming.class,
                 BookingPetHotel.class,
                 BookingHomeService.class
         },
-        version = 6
+        version = 7
 )
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
 
     public abstract PetDao petDao();
 
-    public abstract BookingDao bookingDao();
+    public abstract BookingGroomingDao bookingGroomingDao();
 
     public abstract BookingPetHotelDao bookingPetHotelDao();
 

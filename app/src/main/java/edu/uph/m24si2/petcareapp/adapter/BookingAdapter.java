@@ -8,25 +8,24 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 import java.util.Locale;
 
 import edu.uph.m24si2.petcareapp.R;
-import edu.uph.m24si2.petcareapp.model.Booking;
+import edu.uph.m24si2.petcareapp.model.BookingGrooming;
 import edu.uph.m24si2.petcareapp.model.Pet;
 
 public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHolder> {
 
     private Context context;
-    private List<Booking> bookingList;
+    private List<BookingGrooming> bookingGroomingList;
     private List<Pet> petList;
 
-    public BookingAdapter(Context context, List<Booking> bookingList, List<Pet> petList) {
+    public BookingAdapter(Context context, List<BookingGrooming> bookingGroomingList, List<Pet> petList) {
         this.context = context;
-        this.bookingList = bookingList;
+        this.bookingGroomingList = bookingGroomingList;
         this.petList = petList;
     }
 
@@ -39,29 +38,29 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Booking booking = bookingList.get(position);
+        BookingGrooming bookingGrooming = bookingGroomingList.get(position);
 
         String petName = "Unknown Pet";
         for (Pet pet : petList) {
-            if (pet.getId() == booking.getPetId()) {
+            if (pet.getId() == bookingGrooming.getPetId()) {
                 petName = pet.getName();
                 break;
             }
         }
 
         holder.tvPetName.setText(petName);
-        holder.tvService.setText(booking.getService());
-        holder.tvDate.setText(booking.getBookingDate());
-        holder.tvTime.setText(booking.getBookingTime());
-        holder.tvPrice.setText(String.format(Locale.getDefault(), "Rp %,d", booking.getPrice()));
+        holder.tvService.setText(bookingGrooming.getService());
+        holder.tvDate.setText(bookingGrooming.getBookingDate());
+        holder.tvTime.setText(bookingGrooming.getBookingTime());
+        holder.tvPrice.setText(String.format(Locale.getDefault(), "Rp %,d", bookingGrooming.getPrice()));
         
-        holder.tvStatus.setText(booking.getStatus());
+        holder.tvStatus.setText(bookingGrooming.getStatus());
         
         // Dynamic status coloring
-        if (booking.getStatus().equalsIgnoreCase("Paid")) {
+        if (bookingGrooming.getStatus().equalsIgnoreCase("Paid")) {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_status_paid);
             holder.tvStatus.setTextColor(Color.parseColor("#2E7D32")); // Dark green
-        } else if (booking.getStatus().equalsIgnoreCase("Pending")) {
+        } else if (bookingGrooming.getStatus().equalsIgnoreCase("Pending")) {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_status_pending);
             holder.tvStatus.setTextColor(Color.parseColor("#EF6C00")); // Dark orange
         } else {
@@ -72,7 +71,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return bookingList.size();
+        return bookingGroomingList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -489,13 +489,13 @@
                 <ImageView
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:contentDescription="@string/booking"
+                    android:contentDescription="@string/bookingGrooming"
                     android:src="@android:drawable/ic_menu_my_calendar"
                     app:tint="@color/grey" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/booking"
+                    android:text="@string/bookingGrooming"
                     android:textSize="12sp"
                     android:textColor="@color/grey" />
             </LinearLayout>

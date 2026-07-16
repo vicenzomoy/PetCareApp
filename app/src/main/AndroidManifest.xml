@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PetCareApp">
         <activity
+            android:name=".PaymentSuccessActivity"
+            android:exported="false" />
+        <activity
             android:name=".BookingScheduleActivity"
             android:exported="false" />
         <activity
@@ -20,7 +23,6 @@
         <activity
             android:name=".PetProfile"
             android:exported="false" />
-
         <activity
             android:name=".LoginActivity"
             android:exported="true"

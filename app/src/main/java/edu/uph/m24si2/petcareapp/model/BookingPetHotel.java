@@ -56,21 +56,9 @@ public class BookingPetHotel {
 
     private String createdAt;
 
-    public BookingPetHotel(int userId, int petId, String roomType, String checkInDate, String checkOutDate, int totalDays, int roomPrice, int totalPrice, String note, String status, String bookingCode, String createdAt, String branchName, String branchAddress) {
-        this.userId = userId;
-        this.petId = petId;
-        this.roomType = roomType;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.totalDays = totalDays;
-        this.roomPrice = roomPrice;
-        this.totalPrice = totalPrice;
-        this.note = note;
-        this.status = status;
-        this.bookingCode = bookingCode;
-        this.createdAt = createdAt;
-        this.branchName = branchName;
-        this.branchAddress = branchAddress;
+    private String paymentMethod;
+
+    public BookingPetHotel() {
     }
 
     public int getId() {
@@ -205,5 +193,13 @@ public class BookingPetHotel {
 
     public void setBranchName(String branchName) {
         this.branchName = branchName;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

@@ -117,7 +117,7 @@ public class ProfileActivity extends AppCompatActivity {
                 db.petDao().getPetByUser(userId).size();
 
         int groomingCount =
-                db.bookingDao().getBookingByUser(userId).size();
+                db.bookingGroomingDao().getBookingByUser(userId).size();
 
         int hotelCount =
                 db.bookingPetHotelDao().getBookingByUser(userId).size();

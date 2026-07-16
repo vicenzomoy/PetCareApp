@@ -20,7 +20,7 @@ import java.util.Locale;
 
 import edu.uph.m24si2.petcareapp.adapter.BookingAdapter;
 import edu.uph.m24si2.petcareapp.database.AppDatabase;
-import edu.uph.m24si2.petcareapp.model.Booking;
+import edu.uph.m24si2.petcareapp.model.BookingGrooming;
 import edu.uph.m24si2.petcareapp.model.BookingPetHotel;
 import edu.uph.m24si2.petcareapp.model.Pet;
 
@@ -32,8 +32,8 @@ public class BookingScheduleActivity extends AppCompatActivity {
 
     private AppDatabase db;
 
-    private List<Booking> upcomingList = new ArrayList<>();
-    private List<Booking> pastList = new ArrayList<>();
+    private List<BookingGrooming> upcomingList = new ArrayList<>();
+    private List<BookingGrooming> pastList = new ArrayList<>();
     private List<Pet> petList;
     private int userId;
 
@@ -87,9 +87,9 @@ public class BookingScheduleActivity extends AppCompatActivity {
         today.set(Calendar.SECOND, 0);
         today.set(Calendar.MILLISECOND, 0);
 
-        // 1. Grooming & Home Service
-        List<Booking> allGeneralBookings = db.bookingDao().getAllBooking();
-        for (Booking b : allGeneralBookings) {
+        // 1. Grooming
+        List<BookingGrooming> allGeneralBookings = db.bookingGroomingDao().getAllBooking();
+        for (BookingGrooming b : allGeneralBookings) {
             if (userPetIds.contains(b.getPetId())) {
                 if (isPastDate(b.getBookingDate(), sdf, today)) {
                     pastList.add(b);
@@ -103,7 +103,7 @@ public class BookingScheduleActivity extends AppCompatActivity {
         List<BookingPetHotel> hotelBookings = db.bookingPetHotelDao().getAllBookings();
         for (BookingPetHotel hotel : hotelBookings) {
             if (userPetIds.contains(hotel.getPetId())) {
-                Booking b = new Booking();
+                BookingGrooming b = new BookingGrooming();
                 b.setPetId(hotel.getPetId());
                 b.setService("Pet Hotel (" + hotel.getRoomType() + ")");
                 b.setBookingDate("Check-in: " + hotel.getCheckInDate());
@@ -138,7 +138,7 @@ public class BookingScheduleActivity extends AppCompatActivity {
     }
 
     private void updateList(int tabPosition) {
-        List<Booking> currentList = (tabPosition == 0) ? upcomingList : pastList;
+        List<BookingGrooming> currentList = (tabPosition == 0) ? upcomingList : pastList;
 
         if (currentList.isEmpty()) {
             emptyState.setVisibility(View.VISIBLE);
