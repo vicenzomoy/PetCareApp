@@ -18,18 +18,19 @@ import edu.uph.m24si2.petcareapp.R;
 import edu.uph.m24si2.petcareapp.model.BookingItem;
 import edu.uph.m24si2.petcareapp.model.Pet;
 
-public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHolder> {
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
     private Context context;
     private List<BookingItem> bookingItemList;
     private List<Pet> petList;
-    private OnBookingActionListener listener;
+    private OnHistoryActionListener listener;
 
-    public interface OnBookingActionListener {
+    public interface OnHistoryActionListener {
         void onComplete(BookingItem bookingItem);
+        void onRate(BookingItem bookingItem);
     }
 
-    public BookingAdapter(Context context, List<BookingItem> bookingItemList, List<Pet> petList, OnBookingActionListener listener) {
+    public HistoryAdapter(Context context, List<BookingItem> bookingItemList, List<Pet> petList, OnHistoryActionListener listener) {
         this.context = context;
         this.bookingItemList = bookingItemList;
         this.petList = petList;
@@ -68,14 +69,18 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
             holder.tvStatus.setBackgroundResource(R.drawable.bg_status_paid);
             holder.tvStatus.setTextColor(Color.parseColor("#2E7D32")); // Dark green
             holder.btnComplete.setVisibility(View.GONE);
+            holder.btnRate.setVisibility(View.VISIBLE);
         } else if (bookingItem.getStatus().equalsIgnoreCase("Pending")) {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_status_pending);
             holder.tvStatus.setTextColor(Color.parseColor("#EF6C00")); // Dark orange
             holder.btnComplete.setVisibility(View.VISIBLE);
+            holder.btnComplete.setText("Selesaikan");
+            holder.btnRate.setVisibility(View.GONE);
         } else {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_status_pending);
             holder.tvStatus.setTextColor(Color.parseColor("#757575")); // Grey
             holder.btnComplete.setVisibility(View.GONE);
+            holder.btnRate.setVisibility(View.GONE);
         }
 
         holder.btnComplete.setOnClickListener(v -> {
@@ -84,8 +89,11 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
             }
         });
 
-        // Hide rate button in booking schedule
-        holder.btnRate.setVisibility(View.GONE);
+        holder.btnRate.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onRate(bookingItem);
+            }
+        });
     }
 
     @Override

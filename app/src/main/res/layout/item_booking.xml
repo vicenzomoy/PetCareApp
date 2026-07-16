@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="20dp"
@@ -98,10 +99,39 @@
             android:textColor="@color/sagegreen"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivCalendar"
             android:text="Price" />
+
+        <Button
+            android:id="@+id/btnComplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selesaikan"
+            android:textSize="12sp"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvPrice"
+            app:layout_constraintBottom_toBottomOf="@id/tvPrice"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="@color/sagegreen"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <Button
+            android:id="@+id/btnRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Beri Rating"
+            android:textSize="12sp"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvPrice"
+            app:layout_constraintBottom_toBottomOf="@id/tvPrice"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:textColor="@color/sagegreen"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
         <TextView
             android:id="@+id/tvStatus"

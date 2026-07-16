@@ -84,7 +84,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        navRiwayat.setOnClickListener(v -> Toast.makeText(this, "Membuka Riwayat...", Toast.LENGTH_SHORT).show());
+        navRiwayat.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+            startActivity(intent);
+        });
 
         navProfil.setOnClickListener(v -> {
 
