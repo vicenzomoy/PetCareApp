@@ -27,6 +27,6 @@ public interface BookingHomeServiceDao {
     @Query("SELECT * FROM booking_home_service WHERE id = :id")
     BookingHomeService getById(int id);
 
-    @Query("SELECT * FROM booking_home_service WHERE userId=:userId")
+    @Query("SELECT * FROM booking_home_service WHERE userId=:userId ORDER BY id DESC")
     List<BookingHomeService> getByUser(int userId);
 }

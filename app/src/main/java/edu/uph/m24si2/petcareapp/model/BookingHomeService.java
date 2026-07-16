@@ -34,14 +34,17 @@ public class BookingHomeService {
 
     private int userId;
 
+    private int petId;
+
     private String address;
 
     private String landmark;
 
     private String phoneNumber;
 
-    public BookingHomeService(int userId, String address, String landmark, String phoneNumber) {
+    public BookingHomeService(int userId, int petId, String address, String landmark, String phoneNumber) {
         this.userId = userId;
+        this.petId = petId;
         this.address = address;
         this.landmark = landmark;
         this.phoneNumber = phoneNumber;
@@ -61,6 +64,14 @@ public class BookingHomeService {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getPetId() {
+        return petId;
+    }
+
+    public void setPetId(int petId) {
+        this.petId = petId;
     }
 
     public String getAddress() {

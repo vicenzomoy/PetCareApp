@@ -90,6 +90,16 @@ public class BookingGroomingActivity extends AppCompatActivity {
         db = AppDatabase.getDatabase(this);
         petList = db.petDao().getPetByUser(userId);
 
+        if (petList.isEmpty()) {
+
+            Toast.makeText(this,
+                    "Silakan tambahkan hewan terlebih dahulu.",
+                    Toast.LENGTH_LONG).show();
+
+            finish();
+
+        }
+
         List<String> petNames = new ArrayList<>();
 
         for(Pet pet : petList){

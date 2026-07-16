@@ -2,6 +2,7 @@ package edu.uph.m24si2.petcareapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -37,6 +38,8 @@ public class BookingSummaryActivity extends AppCompatActivity {
 
     // Pet Hotel
     private MaterialCardView cardHotel;
+    private TextView tvBranchName;
+    private TextView tvBranchAddress;
     private TextView tvRoomType;
     private TextView tvCheckIn;
     private TextView tvCheckOut;
@@ -89,6 +92,8 @@ public class BookingSummaryActivity extends AppCompatActivity {
         tvService = findViewById(R.id.tvService);
 
         cardHotel = findViewById(R.id.cardHotel);
+        tvBranchName = findViewById(R.id.tvBranchName);
+        tvBranchAddress = findViewById(R.id.tvBranchAddress);
         tvRoomType = findViewById(R.id.tvRoomType);
         tvCheckIn = findViewById(R.id.tvCheckIn);
         tvCheckOut = findViewById(R.id.tvCheckOut);
@@ -133,7 +138,12 @@ public class BookingSummaryActivity extends AppCompatActivity {
 
     private void showHomeService() {
 
-        cardHome.setVisibility(android.view.View.VISIBLE);
+        cardHome.setVisibility(View.VISIBLE);
+        cardGrooming.setVisibility(View.GONE);
+        cardHotel.setVisibility(View.GONE);
+
+        tvDate.setVisibility(View.VISIBLE);
+        tvTime.setVisibility(View.VISIBLE);
 
         tvDate.setText("Tanggal : " + request.getBookingDate());
 
@@ -149,7 +159,12 @@ public class BookingSummaryActivity extends AppCompatActivity {
 
     private void showGrooming() {
 
-        cardGrooming.setVisibility(android.view.View.VISIBLE);
+        cardHome.setVisibility(View.GONE);
+        cardGrooming.setVisibility(View.VISIBLE);
+        cardHotel.setVisibility(View.GONE);
+
+        tvDate.setVisibility(View.VISIBLE);
+        tvTime.setVisibility(View.VISIBLE);
 
         tvDate.setText("Tanggal : " + request.getBookingDate());
 
@@ -161,11 +176,16 @@ public class BookingSummaryActivity extends AppCompatActivity {
 
     private void showPetHotel() {
 
-        cardHotel.setVisibility(android.view.View.VISIBLE);
+        cardHome.setVisibility(View.GONE);
+        cardGrooming.setVisibility(View.GONE);
+        cardHotel.setVisibility(View.VISIBLE);
 
-        tvDate.setText("Check In : " + request.getCheckInDate());
+        tvBranchName.setText("Cabang : " + request.getBranchName());
 
-        tvTime.setText("");
+        tvBranchAddress.setText("Alamat : " + request.getBranchAddress());
+
+        tvDate.setVisibility(View.GONE);
+        tvTime.setVisibility(View.GONE);
 
         tvRoomType.setText("Room : " + request.getRoomType());
 

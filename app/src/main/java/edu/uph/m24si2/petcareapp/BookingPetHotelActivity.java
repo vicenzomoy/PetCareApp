@@ -144,7 +144,8 @@ public class BookingPetHotelActivity extends AppCompatActivity {
         petList = db.petDao().getPetByUser(userId);
 
         if (petList.isEmpty()) {
-            Toast.makeText(this, "Belum ada data hewan. Silakan tambahkan hewan terlebih dahulu.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Silakan tambahkan hewan terlebih dahulu.", Toast.LENGTH_LONG).show();
+            finish();
         }
 
         List<String> petNames = new ArrayList<>();
