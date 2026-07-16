@@ -23,6 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvPetCount;
     private TextView tvHotelCount;
     private TextView tvGroomingCount;
+    private TextView tvHomeServiceCount;
 
     private MaterialButton btnEditProfile;
     private MaterialButton btnChangePassword;
@@ -94,6 +95,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvPetCount = findViewById(R.id.tvPetCount);
         tvHotelCount = findViewById(R.id.tvHotelCount);
         tvGroomingCount = findViewById(R.id.tvGroomingCount);
+        tvHomeServiceCount = findViewById(R.id.tvHomeServiceCount);
 
     }
 
@@ -122,11 +124,16 @@ public class ProfileActivity extends AppCompatActivity {
         int hotelCount =
                 db.bookingPetHotelDao().getBookingByUser(userId).size();
 
+        int homeServiceCount =
+                db.bookingHomeServiceDao().getByUser(userId).size();
+
         tvPetCount.setText(String.valueOf(petCount));
 
         tvHotelCount.setText(String.valueOf(hotelCount));
 
         tvGroomingCount.setText(String.valueOf(groomingCount));
+
+        tvHomeServiceCount.setText(String.valueOf(homeServiceCount));
 
     }
 
