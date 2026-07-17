@@ -27,6 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private MaterialButton btnEditProfile;
     private MaterialButton btnChangePassword;
+    private MaterialButton btnBookingHistory;
     private MaterialButton btnLogout;
 
     private AppDatabase db;
@@ -71,6 +72,9 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
 
         });
+        btnBookingHistory.setOnClickListener(v -> {
+            startActivity(new Intent(ProfileActivity.this, HistoryActivity.class));
+        });
         btnLogout.setOnClickListener(v -> logout());
     }
 
@@ -87,6 +91,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         btnEditProfile = findViewById(R.id.btnEditProfile);
         btnChangePassword = findViewById(R.id.btnChangePassword);
+        btnBookingHistory = findViewById(R.id.btnBookingHistory);
         btnLogout = findViewById(R.id.btnLogout);
 
         tvName = findViewById(R.id.tvName);
