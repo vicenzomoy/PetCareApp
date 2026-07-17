@@ -2,11 +2,14 @@ package edu.uph.m24si2.petcareapp;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,7 +72,7 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
             bookingItems.add(new BookingItem(
                     b.getId(), b.getPetId(), "Grooming: " + b.getService(),
                     b.getBookingDate(), b.getBookingTime(), b.getPrice(),
-                    b.getStatus(), b, "Grooming"
+                    b.getStatus(), b, "Grooming", b.getRating()
             ));
         }
 
@@ -79,7 +82,7 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
             bookingItems.add(new BookingItem(
                     b.getId(), b.getPetId(), "Pet Hotel: " + b.getRoomType(),
                     "In: " + b.getCheckInDate(), "Out: " + b.getCheckOutDate(), b.getTotalPrice(),
-                    b.getStatus(), b, "PetHotel"
+                    b.getStatus(), b, "PetHotel", b.getRating()
             ));
         }
 
@@ -89,7 +92,7 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
             bookingItems.add(new BookingItem(
                     b.getId(), b.getPetId(), "Home Service",
                     b.getBookingDate(), b.getBookingTime(), b.getPrice(),
-                    b.getStatus(), b, "HomeService"
+                    b.getStatus(), b, "HomeService", b.getRating()
             ));
         }
 
@@ -130,7 +133,36 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
 
     @Override
     public void onRate(BookingItem item) {
-        // Placeholder for Rating Feature
-        Toast.makeText(this, "Fitur Rating akan segera datang!", Toast.LENGTH_SHORT).show();
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_rating, null);
+        RatingBar ratingBar = dialogView.findViewById(R.id.ratingBar);
+        
+        new AlertDialog.Builder(this)
+                .setTitle("Beri Rating")
+                .setView(dialogView)
+                .setPositiveButton("Simpan", (dialog, which) -> {
+                    float rating = ratingBar.getRating();
+                    saveRating(item, rating);
+                })
+                .setNegativeButton("Batal", null)
+                .show();
+    }
+
+    private void saveRating(BookingItem item, float rating) {
+        if (item.getType().equals("Grooming")) {
+            BookingGrooming b = (BookingGrooming) item.getOriginalObject();
+            b.setRating(rating);
+            db.bookingGroomingDao().update(b);
+        } else if (item.getType().equals("PetHotel")) {
+            BookingPetHotel b = (BookingPetHotel) item.getOriginalObject();
+            b.setRating(rating);
+            db.bookingPetHotelDao().updateBooking(b);
+        } else if (item.getType().equals("HomeService")) {
+            BookingHomeService b = (BookingHomeService) item.getOriginalObject();
+            b.setRating(rating);
+            db.bookingHomeServiceDao().update(b);
+        }
+
+        Toast.makeText(this, "Terima kasih atas rating Anda!", Toast.LENGTH_SHORT).show();
+        loadData();
     }
 }

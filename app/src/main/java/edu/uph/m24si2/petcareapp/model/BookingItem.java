@@ -10,8 +10,9 @@ public class BookingItem {
     private String status;
     private Object originalObject;
     private String type; // "Grooming", "PetHotel", "HomeService"
+    private float rating;
 
-    public BookingItem(int id, int petId, String serviceName, String date, String time, int price, String status, Object originalObject, String type) {
+    public BookingItem(int id, int petId, String serviceName, String date, String time, int price, String status, Object originalObject, String type, float rating) {
         this.id = id;
         this.petId = petId;
         this.serviceName = serviceName;
@@ -21,6 +22,7 @@ public class BookingItem {
         this.status = status;
         this.originalObject = originalObject;
         this.type = type;
+        this.rating = rating;
     }
 
     public int getId() { return id; }
@@ -32,8 +34,13 @@ public class BookingItem {
     public String getStatus() { return status; }
     public Object getOriginalObject() { return originalObject; }
     public String getType() { return type; }
+    public float getRating() { return rating; }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 }

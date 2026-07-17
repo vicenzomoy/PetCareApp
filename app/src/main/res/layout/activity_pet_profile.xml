@@ -1,75 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/lightsand">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:padding="16dp"
+    <!-- Green Top Header Background -->
+    <View
+        android:id="@+id/topBackground"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="160dp"
+        android:background="@color/sagegreen"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Nama -->
-        <EditText
-            android:id="@+id/etName"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nama Hewan" />
+            android:orientation="vertical"
+            android:paddingBottom="32dp">
 
-        <!-- Jenis Hewan -->
-        <Spinner
-            android:id="@+id/spType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- Umur -->
-        <EditText
-            android:id="@+id/etAge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Umur"
-            android:inputType="number" />
-
-        <!-- Gender -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Jenis Kelamin"
-            android:paddingTop="8dp"/>
-
-        <RadioGroup
-            android:id="@+id/rgGender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rbMale"
-                android:layout_width="wrap_content"
+            <!-- Header Title Section -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Jantan" />
+                android:paddingHorizontal="24dp"
+                android:paddingTop="32dp"
+                android:paddingBottom="16dp">
 
-            <RadioButton
-                android:id="@+id/rbFemale"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profil_hewan_peliharaan"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.9"
+                    android:text="@string/lengkapi_data_hewan"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Form Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Betina" />
-        </RadioGroup>
+                android:layout_marginHorizontal="20dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
 
-        <!-- Deskripsi -->
-        <EditText
-            android:id="@+id/etDesc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Keterangan (sifat / alergi)" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
 
-        <!-- Button -->
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Simpan Hewan" />
+                    <!-- Nama Hewan -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/nama_hewan"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:startIconDrawable="@android:drawable/ic_menu_edit"
+                        app:startIconTint="@color/sagegreen">
 
-    </LinearLayout>
-</ScrollView>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Jenis Hewan Label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/jenis_hewan"
+                        android:textColor="@color/darkgray"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <!-- Spinner Wrapper -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        app:cardBackgroundColor="#FDF8EF"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/lightgreen"
+                        app:strokeWidth="1dp">
+
+                        <Spinner
+                            android:id="@+id/spType"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:paddingHorizontal="8dp" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Umur -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:hint="@string/umur_tahun"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:startIconDrawable="@android:drawable/ic_menu_today"
+                        app:startIconTint="@color/sagegreen">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etAge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Jenis Kelamin Label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/jenis_kelamin"
+                        android:textColor="@color/darkgray"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <RadioGroup
+                        android:id="@+id/rgGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/rbMale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="16dp"
+                            android:text="@string/jantan"
+                            android:textColor="@color/darkgray" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/rbFemale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/betina"
+                            android:textColor="@color/darkgray" />
+                    </RadioGroup>
+
+                    <!-- Keterangan / Deskripsi -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:hint="@string/sifat_catatan"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:startIconDrawable="@android:drawable/ic_menu_info_details"
+                        app:startIconTint="@color/sagegreen">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDesc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:lines="3" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Button Simpan -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSave"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="32dp"
+                        android:backgroundTint="@color/sagegreen"
+                        android:text="@string/simpan_data"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="16dp"
+                        app:elevation="4dp"
+                        app:icon="@android:drawable/ic_menu_save"
+                        app:iconGravity="textStart"
+                        app:iconPadding="12dp" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

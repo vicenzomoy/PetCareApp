@@ -94,11 +94,9 @@ public class BookingScheduleActivity extends AppCompatActivity implements Bookin
         List<BookingGrooming> allGeneralBookings = db.bookingGroomingDao().getAllBooking();
         for (BookingGrooming b : allGeneralBookings) {
             if (userPetIds.contains(b.getPetId())) {
-                BookingItem item = new BookingItem(
-                        b.getId(), b.getPetId(), "Grooming: " + b.getService(),
+                BookingItem item = new BookingItem(b.getId(), b.getPetId(), "Grooming: " + b.getService(),
                         b.getBookingDate(), b.getBookingTime(), b.getPrice(),
-                        b.getStatus(), b, "Grooming"
-                );
+                        b.getStatus(), b, "Grooming", b.getRating());
                 if (isPastDate(b.getBookingDate(), sdf, today)) {
                     pastList.add(item);
                 } else {
@@ -114,7 +112,7 @@ public class BookingScheduleActivity extends AppCompatActivity implements Bookin
                 BookingItem item = new BookingItem(
                         hotel.getId(), hotel.getPetId(), "Pet Hotel (" + hotel.getRoomType() + ")",
                         "In: " + hotel.getCheckInDate(), "Out: " + hotel.getCheckOutDate(), hotel.getTotalPrice(),
-                        hotel.getStatus(), hotel, "PetHotel"
+                        hotel.getStatus(), hotel, "PetHotel", hotel.getRating()
                 );
 
                 if (isPastDate(hotel.getCheckInDate(), sdf, today)) {
@@ -132,7 +130,7 @@ public class BookingScheduleActivity extends AppCompatActivity implements Bookin
                 BookingItem item = new BookingItem(
                         home.getId(), home.getPetId(), "Home Service",
                         home.getBookingDate(), home.getBookingTime(), home.getPrice(),
-                        home.getStatus(), home, "HomeService"
+                        home.getStatus(), home, "HomeService", home.getRating()
                 );
 
                 if (isPastDate(home.getBookingDate(), sdf, today)) {

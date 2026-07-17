@@ -28,7 +28,7 @@ import edu.uph.m24si2.petcareapp.database.dao.BookingPetHotelDao;
                 BookingPetHotel.class,
                 BookingHomeService.class
         },
-        version = 7
+        version = 8
 )
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();

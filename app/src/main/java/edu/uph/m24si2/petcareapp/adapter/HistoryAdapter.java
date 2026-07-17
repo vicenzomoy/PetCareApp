@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -69,18 +70,28 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             holder.tvStatus.setBackgroundResource(R.drawable.bg_status_paid);
             holder.tvStatus.setTextColor(Color.parseColor("#2E7D32")); // Dark green
             holder.btnComplete.setVisibility(View.GONE);
-            holder.btnRate.setVisibility(View.VISIBLE);
+            
+            if (bookingItem.getRating() > 0) {
+                holder.btnRate.setVisibility(View.GONE);
+                holder.ratingDisplay.setVisibility(View.VISIBLE);
+                holder.ratingDisplay.setRating(bookingItem.getRating());
+            } else {
+                holder.btnRate.setVisibility(View.VISIBLE);
+                holder.ratingDisplay.setVisibility(View.GONE);
+            }
         } else if (bookingItem.getStatus().equalsIgnoreCase("Pending")) {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_status_pending);
             holder.tvStatus.setTextColor(Color.parseColor("#EF6C00")); // Dark orange
             holder.btnComplete.setVisibility(View.VISIBLE);
             holder.btnComplete.setText("Selesaikan");
             holder.btnRate.setVisibility(View.GONE);
+            holder.ratingDisplay.setVisibility(View.GONE);
         } else {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_status_pending);
             holder.tvStatus.setTextColor(Color.parseColor("#757575")); // Grey
             holder.btnComplete.setVisibility(View.GONE);
             holder.btnRate.setVisibility(View.GONE);
+            holder.ratingDisplay.setVisibility(View.GONE);
         }
 
         holder.btnComplete.setOnClickListener(v -> {
@@ -104,6 +115,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvPetName, tvService, tvDate, tvTime, tvStatus, tvPrice;
         Button btnComplete, btnRate;
+        RatingBar ratingDisplay;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -115,6 +127,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             tvPrice = itemView.findViewById(R.id.tvPrice);
             btnComplete = itemView.findViewById(R.id.btnComplete);
             btnRate = itemView.findViewById(R.id.btnRate);
+            ratingDisplay = itemView.findViewById(R.id.ratingDisplay);
         }
     }
 }

@@ -53,7 +53,17 @@ public class BookingGrooming {
 
     private String paymentMethod;
 
+    private float rating;
+
     public BookingGrooming() {
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
     public int getId() {
