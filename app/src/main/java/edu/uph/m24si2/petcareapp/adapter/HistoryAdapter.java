@@ -66,7 +66,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.tvStatus.setText(bookingItem.getStatus());
         
         // Dynamic status coloring
-        if (bookingItem.getStatus().equalsIgnoreCase("Completed") || bookingItem.getStatus().equalsIgnoreCase("Paid")) {
+        if (bookingItem.getStatus().equalsIgnoreCase("Selesai") || bookingItem.getStatus().equalsIgnoreCase("Paid")) {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_status_paid);
             holder.tvStatus.setTextColor(Color.parseColor("#2E7D32")); // Dark green
             holder.btnComplete.setVisibility(View.GONE);
