@@ -64,11 +64,11 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
         holder.tvStatus.setText(bookingItem.getStatus());
         
         // Dynamic status coloring
-        if (bookingItem.getStatus().equalsIgnoreCase("Completed") || bookingItem.getStatus().equalsIgnoreCase("Paid")) {
+        if (bookingItem.getStatus().equalsIgnoreCase("Selesai") || bookingItem.getStatus().equalsIgnoreCase("Paid")) {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_status_paid);
             holder.tvStatus.setTextColor(Color.parseColor("#2E7D32")); // Dark green
             holder.btnComplete.setVisibility(View.GONE);
-        } else if (bookingItem.getStatus().equalsIgnoreCase("Pending")) {
+        } else if (bookingItem.getStatus().equalsIgnoreCase("Menunggu Konfirmasi")) {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_status_pending);
             holder.tvStatus.setTextColor(Color.parseColor("#EF6C00")); // Dark orange
             holder.btnComplete.setVisibility(View.VISIBLE);

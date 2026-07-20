@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.tabs.TabLayout;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,12 +29,10 @@ public class BookingScheduleActivity extends AppCompatActivity implements Bookin
 
     private RecyclerView rvBooking;
     private View emptyState;
-    private TabLayout tabLayout;
 
     private AppDatabase db;
 
     private final List<BookingItem> upcomingList = new ArrayList<>();
-    private final List<BookingItem> pastList = new ArrayList<>();
     private List<Pet> petList;
     private int userId;
 
@@ -47,35 +43,17 @@ public class BookingScheduleActivity extends AppCompatActivity implements Bookin
 
         rvBooking = findViewById(R.id.rvBooking);
         emptyState = findViewById(R.id.emptyState);
-        tabLayout = findViewById(R.id.tabLayout);
 
         db = AppDatabase.getDatabase(this);
         
         SharedPreferences preferences = getSharedPreferences("PetCare", MODE_PRIVATE);
         userId = preferences.getInt("userId", -1);
 
-        setupTabs();
         loadBooking();
-    }
-
-    private void setupTabs() {
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                updateList(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
-        });
     }
 
     private void loadBooking() {
         upcomingList.clear();
-        pastList.clear();
         
         petList = db.petDao().getPetByUser(userId);
         List<Integer> userPetIds = new ArrayList<>();
@@ -93,13 +71,11 @@ public class BookingScheduleActivity extends AppCompatActivity implements Bookin
         // 1. Grooming
         List<BookingGrooming> allGeneralBookings = db.bookingGroomingDao().getAllBooking();
         for (BookingGrooming b : allGeneralBookings) {
-            if (userPetIds.contains(b.getPetId())) {
-                BookingItem item = new BookingItem(b.getId(), b.getPetId(), "Grooming: " + b.getService(),
-                        b.getBookingDate(), b.getBookingTime(), b.getPrice(),
-                        b.getStatus(), b, "Grooming", b.getRating());
-                if (isPastDate(b.getBookingDate(), sdf, today)) {
-                    pastList.add(item);
-                } else {
+            if (userPetIds.contains(b.getPetId()) && "Menunggu Konfirmasi".equals(b.getStatus())) {
+                if (!isPastDate(b.getBookingDate(), sdf, today)) {
+                    BookingItem item = new BookingItem(b.getId(), b.getPetId(), "Grooming: " + b.getService(),
+                            b.getBookingDate(), b.getBookingTime(), b.getPrice(),
+                            b.getStatus(), b, "Grooming", b.getRating());
                     upcomingList.add(item);
                 }
             }
@@ -108,16 +84,13 @@ public class BookingScheduleActivity extends AppCompatActivity implements Bookin
         // 2. Pet Hotel
         List<BookingPetHotel> hotelBookings = db.bookingPetHotelDao().getAllBookings();
         for (BookingPetHotel hotel : hotelBookings) {
-            if (userPetIds.contains(hotel.getPetId())) {
-                BookingItem item = new BookingItem(
-                        hotel.getId(), hotel.getPetId(), "Pet Hotel (" + hotel.getRoomType() + ")",
-                        "In: " + hotel.getCheckInDate(), "Out: " + hotel.getCheckOutDate(), hotel.getTotalPrice(),
-                        hotel.getStatus(), hotel, "PetHotel", hotel.getRating()
-                );
-
-                if (isPastDate(hotel.getCheckInDate(), sdf, today)) {
-                    pastList.add(item);
-                } else {
+            if (userPetIds.contains(hotel.getPetId()) && "Menunggu Konfirmasi".equals(hotel.getStatus())) {
+                if (!isPastDate(hotel.getCheckInDate(), sdf, today)) {
+                    BookingItem item = new BookingItem(
+                            hotel.getId(), hotel.getPetId(), "Pet Hotel (" + hotel.getRoomType() + ")",
+                            "In: " + hotel.getCheckInDate(), "Out: " + hotel.getCheckOutDate(), hotel.getTotalPrice(),
+                            hotel.getStatus(), hotel, "PetHotel", hotel.getRating()
+                    );
                     upcomingList.add(item);
                 }
             }
@@ -126,23 +99,19 @@ public class BookingScheduleActivity extends AppCompatActivity implements Bookin
         // 3. Home Service
         List<BookingHomeService> homeBookings = db.bookingHomeServiceDao().getAllHomeServiceBooking();
         for (BookingHomeService home : homeBookings) {
-            if (userPetIds.contains(home.getPetId())) {
-                BookingItem item = new BookingItem(
-                        home.getId(), home.getPetId(), "Home Service",
-                        home.getBookingDate(), home.getBookingTime(), home.getPrice(),
-                        home.getStatus(), home, "HomeService", home.getRating()
-                );
-
-                if (isPastDate(home.getBookingDate(), sdf, today)) {
-                    pastList.add(item);
-                } else {
+            if (userPetIds.contains(home.getPetId()) && "Menunggu Konfirmasi".equals(home.getStatus())) {
+                if (!isPastDate(home.getBookingDate(), sdf, today)) {
+                    BookingItem item = new BookingItem(
+                            home.getId(), home.getPetId(), "Home Service",
+                            home.getBookingDate(), home.getBookingTime(), home.getPrice(),
+                            home.getStatus(), home, "HomeService", home.getRating()
+                    );
                     upcomingList.add(item);
                 }
             }
         }
 
-        // Default view: Current selected tab
-        updateList(tabLayout.getSelectedTabPosition());
+        updateList();
     }
 
     private boolean isPastDate(String dateStr, SimpleDateFormat sdf, Calendar today) {
@@ -159,17 +128,15 @@ public class BookingScheduleActivity extends AppCompatActivity implements Bookin
         return false;
     }
 
-    private void updateList(int tabPosition) {
-        List<BookingItem> currentList = (tabPosition == 0) ? upcomingList : pastList;
-
-        if (currentList.isEmpty()) {
+    private void updateList() {
+        if (upcomingList.isEmpty()) {
             emptyState.setVisibility(View.VISIBLE);
             rvBooking.setVisibility(View.GONE);
         } else {
             emptyState.setVisibility(View.GONE);
             rvBooking.setVisibility(View.VISIBLE);
 
-            BookingAdapter adapter = new BookingAdapter(this, currentList, petList, this);
+            BookingAdapter adapter = new BookingAdapter(this, upcomingList, petList, this);
             rvBooking.setLayoutManager(new LinearLayoutManager(this));
             rvBooking.setAdapter(adapter);
         }
@@ -179,15 +146,15 @@ public class BookingScheduleActivity extends AppCompatActivity implements Bookin
     public void onComplete(BookingItem item) {
         if (item.getType().equals("Grooming")) {
             BookingGrooming b = (BookingGrooming) item.getOriginalObject();
-            b.setStatus("Completed");
+            b.setStatus("Selesai");
             db.bookingGroomingDao().update(b);
         } else if (item.getType().equals("PetHotel")) {
             BookingPetHotel b = (BookingPetHotel) item.getOriginalObject();
-            b.setStatus("Completed");
+            b.setStatus("Selesai");
             db.bookingPetHotelDao().updateBooking(b);
         } else if (item.getType().equals("HomeService")) {
             BookingHomeService b = (BookingHomeService) item.getOriginalObject();
-            b.setStatus("Completed");
+            b.setStatus("Selesai");
             db.bookingHomeServiceDao().update(b);
         }
         Toast.makeText(this, "Booking diselesaikan!", Toast.LENGTH_SHORT).show();

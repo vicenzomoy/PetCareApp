@@ -79,7 +79,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 holder.btnRate.setVisibility(View.VISIBLE);
                 holder.ratingDisplay.setVisibility(View.GONE);
             }
-        } else if (bookingItem.getStatus().equalsIgnoreCase("Pending")) {
+        } else if (bookingItem.getStatus().equalsIgnoreCase("Menunggu Konfirmasi")) {
             holder.tvStatus.setBackgroundResource(R.drawable.bg_status_pending);
             holder.tvStatus.setTextColor(Color.parseColor("#EF6C00")); // Dark orange
             holder.btnComplete.setVisibility(View.VISIBLE);
