@@ -18,8 +18,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private ImageView btnBack;
 
     private TextInputEditText etName;
+    
     private TextInputEditText etEmail;
-    private TextInputEditText etPhone;
 
     private MaterialButton btnSave;
 
