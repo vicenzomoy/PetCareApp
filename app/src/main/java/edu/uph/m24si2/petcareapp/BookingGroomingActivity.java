@@ -167,6 +167,9 @@ public class BookingGroomingActivity extends AppCompatActivity {
 
                 );
 
+        // Set minimal date to today
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
         dialog.show();
 
     }

@@ -14,9 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import edu.uph.m24si2.petcareapp.adapter.HistoryAdapter;
 import edu.uph.m24si2.petcareapp.database.AppDatabase;
@@ -66,34 +71,70 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
         // Load Pets for name lookup
         pets = db.petDao().getPetByUser(userId);
 
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        Date today = cal.getTime();
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
+
         // Load Grooming
         List<BookingGrooming> groomingList = db.bookingGroomingDao().getBookingByUser(userId);
         for (BookingGrooming b : groomingList) {
-            bookingItems.add(new BookingItem(
-                    b.getId(), b.getPetId(), "Grooming: " + b.getService(),
-                    b.getBookingDate(), b.getBookingTime(), b.getPrice(),
-                    b.getStatus(), b, "Grooming", b.getRating()
-            ));
+            // Cek apakah tanggal sudah lewat
+            if (!"Selesai".equals(b.getStatus()) && isPastDate(b.getBookingDate(), sdf, today)) {
+                b.setStatus("Selesai");
+                db.bookingGroomingDao().update(b);
+            }
+            
+            // Hanya tampilkan yang statusnya Selesai
+            if ("Selesai".equals(b.getStatus())) {
+                bookingItems.add(new BookingItem(
+                        b.getId(), b.getPetId(), "Grooming: " + b.getService(),
+                        b.getBookingDate(), b.getBookingTime(), b.getPrice(),
+                        b.getStatus(), b, "Grooming", b.getRating()
+                ));
+            }
         }
 
         // Load Pet Hotel
         List<BookingPetHotel> hotelList = db.bookingPetHotelDao().getBookingByUser(userId);
         for (BookingPetHotel b : hotelList) {
-            bookingItems.add(new BookingItem(
-                    b.getId(), b.getPetId(), "Pet Hotel: " + b.getRoomType(),
-                    "In: " + b.getCheckInDate(), "Out: " + b.getCheckOutDate(), b.getTotalPrice(),
-                    b.getStatus(), b, "PetHotel", b.getRating()
-            ));
+            // Cek apakah tanggal sudah lewat (Check out)
+            if (!"Selesai".equals(b.getStatus()) && isPastDate(b.getCheckOutDate(), sdf, today)) {
+                b.setStatus("Selesai");
+                db.bookingPetHotelDao().updateBooking(b);
+            }
+
+            // Hanya tampilkan yang statusnya Selesai
+            if ("Selesai".equals(b.getStatus())) {
+                bookingItems.add(new BookingItem(
+                        b.getId(), b.getPetId(), "Pet Hotel: " + b.getRoomType(),
+                        "In: " + b.getCheckInDate(), "Out: " + b.getCheckOutDate(), b.getTotalPrice(),
+                        b.getStatus(), b, "PetHotel", b.getRating()
+                ));
+            }
         }
 
         // Load Home Service
         List<BookingHomeService> homeList = db.bookingHomeServiceDao().getByUser(userId);
         for (BookingHomeService b : homeList) {
-            bookingItems.add(new BookingItem(
-                    b.getId(), b.getPetId(), "Home Service",
-                    b.getBookingDate(), b.getBookingTime(), b.getPrice(),
-                    b.getStatus(), b, "HomeService", b.getRating()
-            ));
+            // Cek apakah tanggal sudah lewat
+            if (!"Selesai".equals(b.getStatus()) && isPastDate(b.getBookingDate(), sdf, today)) {
+                b.setStatus("Selesai");
+                db.bookingHomeServiceDao().update(b);
+            }
+
+            // Hanya tampilkan yang statusnya Selesai
+            if ("Selesai".equals(b.getStatus())) {
+                bookingItems.add(new BookingItem(
+                        b.getId(), b.getPetId(), "Home Service",
+                        b.getBookingDate(), b.getBookingTime(), b.getPrice(),
+                        b.getStatus(), b, "HomeService", b.getRating()
+                ));
+            }
         }
 
         // Sort by ID descending (assuming higher ID is newer)
@@ -110,20 +151,30 @@ public class HistoryActivity extends AppCompatActivity implements HistoryAdapter
         }
     }
 
+    private boolean isPastDate(String dateStr, SimpleDateFormat sdf, Date today) {
+        if (dateStr == null || dateStr.isEmpty()) return false;
+        try {
+            Date date = sdf.parse(dateStr);
+            return date != null && date.before(today);
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
     @Override
     public void onComplete(BookingItem item) {
         // Handle completion based on type
         if (item.getType().equals("Grooming")) {
             BookingGrooming b = (BookingGrooming) item.getOriginalObject();
-            b.setStatus("Completed");
+            b.setStatus("Selesai");
             db.bookingGroomingDao().update(b);
         } else if (item.getType().equals("PetHotel")) {
             BookingPetHotel b = (BookingPetHotel) item.getOriginalObject();
-            b.setStatus("Completed");
+            b.setStatus("Selesai");
             db.bookingPetHotelDao().updateBooking(b);
         } else if (item.getType().equals("HomeService")) {
             BookingHomeService b = (BookingHomeService) item.getOriginalObject();
-            b.setStatus("Completed");
+            b.setStatus("Selesai");
             db.bookingHomeServiceDao().update(b);
         }
 
