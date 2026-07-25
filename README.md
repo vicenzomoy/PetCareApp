@@ -33,4 +33,4 @@
    * Klik tombol **Run 'app'** (ikon segitiga hijau di panel atas).
 
 ## 🔗 Link Video Demonstrasi Aplikasi
-Klik di [sini](https://youtu.be/CB5GWEuPG9Q) untuk mengakses video demonstrasi aplikasi.
+Klik di [sini](https://youtu.be/97xuZg1FVhM) untuk mengakses video demonstrasi aplikasi.
