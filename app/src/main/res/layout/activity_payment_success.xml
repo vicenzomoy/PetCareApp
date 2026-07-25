@@ -17,7 +17,7 @@
         android:src="@drawable/ic_success"
         android:contentDescription="Success Icon"
         android:layout_marginBottom="24dp"
-        android:tint="#4CAF50" />
+        app:tint="#4CAF50" />
 
     <!-- Title -->
     <TextView
