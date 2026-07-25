@@ -29,4 +29,7 @@ public interface BookingHomeServiceDao {
 
     @Query("SELECT * FROM booking_home_service WHERE userId=:userId ORDER BY id DESC")
     List<BookingHomeService> getByUser(int userId);
+
+    @Query("SELECT COUNT(*) FROM booking_home_service WHERE petId = :petId AND bookingDate = :date AND bookingTime = :time AND status != 'Cancelled'")
+    int checkDuplicate(int petId, String date, String time);
 }

@@ -314,6 +314,13 @@ public class BookingHomeServiceActivity extends AppCompatActivity {
             return;
         }
 
+        Pet selectedPet = (Pet) spPet.getSelectedItem();
+        int count = db.bookingHomeServiceDao().checkDuplicate(selectedPet.getId(), date, time);
+        if (count > 0) {
+            Toast.makeText(this, "Hewan ini sudah memiliki jadwal Home Service di waktu tersebut!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         goToSummary();
 
     }

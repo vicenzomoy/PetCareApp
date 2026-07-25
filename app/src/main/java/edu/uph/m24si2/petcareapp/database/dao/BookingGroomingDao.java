@@ -33,4 +33,7 @@ public interface BookingGroomingDao {
 
     @Query("SELECT * FROM booking_grooming WHERE userId=:userId ORDER BY id DESC")
     List<BookingGrooming> getBookingByUser(int userId);
+
+    @Query("SELECT COUNT(*) FROM booking_grooming WHERE petId = :petId AND bookingDate = :date AND bookingTime = :time AND status != 'Cancelled'")
+    int checkDuplicate(int petId, String date, String time);
 }

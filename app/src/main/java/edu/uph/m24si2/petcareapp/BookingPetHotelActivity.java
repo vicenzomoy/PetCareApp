@@ -480,6 +480,15 @@ public class BookingPetHotelActivity extends AppCompatActivity {
             return;
         }
 
+        // Cek overlap booking hotel
+        String checkIn = etCheckIn.getText().toString();
+        String checkOut = etCheckOut.getText().toString();
+        int count = db.bookingPetHotelDao().checkOverlap(selectedPet.getId(), checkIn, checkOut);
+        if (count > 0) {
+            Toast.makeText(this, "Hewan ini sudah terdaftar di hotel pada tanggal tersebut!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         String roomType;
 
         if (rbStandard.isChecked()) {

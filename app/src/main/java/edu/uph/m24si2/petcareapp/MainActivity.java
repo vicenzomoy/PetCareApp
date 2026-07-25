@@ -32,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
     LinearLayout navBeranda, navBooking, navRiwayat, navProfil;
     MaterialCardView cardAddPet;
-    LinearLayout containerPets, btnGrooming, btnPetHotel, btnHomeService;
+    LinearLayout containerPets, btnGrooming, btnPetHotel, btnHomeService, btnOthers;
 
-    TextView tvGreeting;
+    TextView tvGreeting, tvSeeAllServices, tvSeeAllPets;
 
     AppDatabase db;
     SharedPreferences preferences;
@@ -70,9 +70,18 @@ public class MainActivity extends AppCompatActivity {
         btnGrooming = findViewById(R.id.btnGrooming);
         btnPetHotel = findViewById(R.id.btnPetHotel);
         btnHomeService = findViewById(R.id.btnHomeService);
+        btnOthers = findViewById(R.id.btnOthers);
         tvGreeting = findViewById(R.id.tvGreeting);
+        tvSeeAllServices = findViewById(R.id.tvSeeAllServices);
+        tvSeeAllPets = findViewById(R.id.tvSeeAllPets);
 
         // Click Listeners
+        View.OnClickListener comingSoonListener = v -> Toast.makeText(this, "Fitur akan segera hadir!", Toast.LENGTH_SHORT).show();
+
+        if (btnOthers != null) btnOthers.setOnClickListener(comingSoonListener);
+        if (tvSeeAllServices != null) tvSeeAllServices.setOnClickListener(comingSoonListener);
+        if (tvSeeAllPets != null) tvSeeAllPets.setOnClickListener(comingSoonListener);
+
         navBeranda.setOnClickListener(v -> { /* Already here */ });
 
         navBooking.setOnClickListener(v -> {

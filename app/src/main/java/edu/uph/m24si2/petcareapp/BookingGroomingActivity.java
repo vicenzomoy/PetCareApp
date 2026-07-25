@@ -218,6 +218,13 @@ public class BookingGroomingActivity extends AppCompatActivity {
             }
         }
 
+        // Cek duplikasi booking
+        int count = db.bookingGroomingDao().checkDuplicate(petId, selectedDate, selectedTime);
+        if (count > 0) {
+            Toast.makeText(this, "Hewan ini sudah memiliki jadwal Grooming di waktu tersebut!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         int price = 0;
         switch (dropService.getText().toString()) {
             case "Basic Grooming":

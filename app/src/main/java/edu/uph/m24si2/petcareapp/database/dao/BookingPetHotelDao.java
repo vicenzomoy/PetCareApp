@@ -34,4 +34,6 @@ public interface BookingPetHotelDao {
     @Query("SELECT * FROM booking_pet_hotel WHERE userId=:userId ORDER BY id DESC")
     List<BookingPetHotel> getBookingByUser(int userId);
 
+    @Query("SELECT COUNT(*) FROM booking_pet_hotel WHERE petId = :petId AND NOT (checkOutDate < :checkIn OR checkInDate > :checkOut) AND status != 'Cancelled'")
+    int checkOverlap(int petId, String checkIn, String checkOut);
 }

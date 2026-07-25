@@ -150,11 +150,15 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tvSeeAllServices"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/lihat_semua"
                     android:textColor="@color/grey"
                     android:textSize="13sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -276,11 +280,15 @@
 
                 <!-- Lainnya -->
                 <LinearLayout
+                    android:id="@+id/btnOthers"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground">
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="72dp"
                         android:layout_height="72dp"
@@ -324,11 +332,15 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tvSeeAllPets"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/lihat_semua"
                     android:textColor="@color/grey"
                     android:textSize="13sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
